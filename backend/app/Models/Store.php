@@ -26,4 +26,9 @@ class Store extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function paymentMethods(): HasMany
+    {
+        return $this->hasMany(PaymentMethod::class);
+    }
 }
