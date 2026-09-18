@@ -153,7 +153,14 @@ function SellerDashboardPage() {
                 <div className="hero-content">
 
                     <div className="store-icon">
-                        <Store size={25} />
+                        {store?.logo ? (
+                            <img
+                                src={store.logo}
+                                alt={store.name}
+                            />
+                        ) : (
+                            <Store size={25} />
+                        )}
                     </div>
 
                     <div>

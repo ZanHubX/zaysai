@@ -61,6 +61,7 @@ class SellerDashboardController extends Controller
                 'id' => $store->id,
                 'name' => $store->name,
                 'slug' => $store->slug,
+                'logo' => $store->logo,
                 'status' => $store->status,
             ],
 
