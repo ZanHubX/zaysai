@@ -7,6 +7,9 @@ use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\SellerOrderController;
 use App\Http\Controllers\Api\SellerProductController;
 use App\Http\Controllers\Api\StorefrontController;
+use App\Http\Controllers\Api\SellerStoreController;
+use App\Http\Controllers\Api\SellerPaymentMethodController;
+use App\Http\Controllers\Api\SellerDashboardController;
 
 
 /*
@@ -19,35 +22,75 @@ use App\Http\Controllers\Api\StorefrontController;
 */
 
 
-// Seller Login
+/*
+|--------------------------------------------------------------------------
+| Seller Login
+|--------------------------------------------------------------------------
+*/
+
 Route::post('/login', [
     AuthController::class,
     'login'
 ]);
 
 
-// Public Store Information
+/*
+|--------------------------------------------------------------------------
+| Public Store Information
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/stores/{slug}', [
     StorefrontController::class,
     'show'
 ]);
 
 
-// Public Store Products
+/*
+|--------------------------------------------------------------------------
+| Public Store Products
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/stores/{slug}/products', [
     StorefrontController::class,
     'products'
 ]);
 
 
-// Public Product Detail
+/*
+|--------------------------------------------------------------------------
+| Public Product Detail
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/stores/{slug}/products/{productSlug}', [
     StorefrontController::class,
     'product'
 ]);
 
 
-// Customer Place Order
+/*
+|--------------------------------------------------------------------------
+| Public Store Payment Methods
+|--------------------------------------------------------------------------
+|
+| Customers can see active payment methods during checkout.
+|
+*/
+
+Route::get('/stores/{slug}/payment-methods', [
+    StorefrontController::class,
+    'paymentMethods'
+]);
+
+
+/*
+|--------------------------------------------------------------------------
+| Customer Place Order
+|--------------------------------------------------------------------------
+*/
+
 Route::post('/stores/{slug}/orders', [
     OrderController::class,
     'store'
@@ -86,6 +129,77 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
+    | Seller Dashboard
+    |--------------------------------------------------------------------------
+    |
+    | Dashboard statistics and recent orders.
+    |
+    */
+
+    Route::get('/seller/dashboard', [
+        SellerDashboardController::class,
+        'index'
+    ]);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Seller Store Settings
+    |--------------------------------------------------------------------------
+    */
+
+    // Get Store Settings
+    Route::get('/seller/store', [
+        SellerStoreController::class,
+        'show'
+    ]);
+
+    // Update Store Settings
+    Route::put('/seller/store', [
+        SellerStoreController::class,
+        'update'
+    ]);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Seller Payment Methods
+    |--------------------------------------------------------------------------
+    */
+
+    // Get Payment Methods
+    Route::get('/seller/payment-methods', [
+        SellerPaymentMethodController::class,
+        'index'
+    ]);
+
+    // Create Payment Method
+    Route::post('/seller/payment-methods', [
+        SellerPaymentMethodController::class,
+        'store'
+    ]);
+
+    // Get Single Payment Method
+    Route::get('/seller/payment-methods/{id}', [
+        SellerPaymentMethodController::class,
+        'show'
+    ]);
+
+    // Update Payment Method
+    Route::put('/seller/payment-methods/{id}', [
+        SellerPaymentMethodController::class,
+        'update'
+    ]);
+
+    // Delete Payment Method
+    Route::delete('/seller/payment-methods/{id}', [
+        SellerPaymentMethodController::class,
+        'destroy'
+    ]);
+
+
+    /*
+    |--------------------------------------------------------------------------
     | Seller Orders
     |--------------------------------------------------------------------------
     */
@@ -102,10 +216,34 @@ Route::middleware('auth:sanctum')->group(function () {
         'show'
     ]);
 
+    // Get Payment Proof
+    Route::get('/seller/orders/{id}/payment-proof', [
+        SellerOrderController::class,
+        'paymentProof'
+    ]);
+
     // Update Order Status
     Route::patch('/seller/orders/{id}/status', [
         SellerOrderController::class,
         'updateStatus'
+    ]);
+
+    // Update Payment Status
+    Route::patch('/seller/orders/{id}/payment-status', [
+        SellerOrderController::class,
+        'updatePaymentStatus'
+    ]);
+
+    // Update Fulfillment Status
+    Route::patch('/seller/orders/{id}/fulfillment-status', [
+        SellerOrderController::class,
+        'updateFulfillmentStatus'
+    ]);
+
+    // Update Fulfillment Details
+    Route::post('/seller/orders/{id}/fulfillment', [
+        SellerOrderController::class,
+        'updateFulfillment'
     ]);
 
 
@@ -115,7 +253,7 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    // Product List
+    // Get Products
     Route::get('/seller/products', [
         SellerProductController::class,
         'index'
@@ -127,7 +265,7 @@ Route::middleware('auth:sanctum')->group(function () {
         'store'
     ]);
 
-    // Product Detail
+    // Get Single Product
     Route::get('/seller/products/{id}', [
         SellerProductController::class,
         'show'
@@ -145,3 +283,14 @@ Route::middleware('auth:sanctum')->group(function () {
         'destroy'
     ]);
 });
+
+/*
+|--------------------------------------------------------------------------
+| Customer Order Tracking
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/orders/{orderNumber}/track', [
+    OrderController::class,
+    'track'
+]);

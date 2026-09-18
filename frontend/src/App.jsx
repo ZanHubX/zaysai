@@ -1,37 +1,114 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import StorefrontPage from "./pages/StorefrontPage";
+import GlobalLoader from "./components/GlobalLoader";
+
+import StoreFrontPage from "./pages/StoreFrontPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import OrderTrackingPage from "./pages/OrderTrackingPage";
+
 import SellerLoginPage from "./pages/SellerLoginPage";
 import SellerDashboardPage from "./pages/SellerDashboardPage";
+import SellerProductsPage from "./pages/SellerProductsPage";
+import SellerOrdersPage from "./pages/SellerOrdersPage";
+import SellerOrderDetailPage from "./pages/SellerOrderDetailPage";
+import SellerSettingsPage from "./pages/SellerSettingsPage";
+import SellerPaymentMethodsPage from "./pages/SellerPaymentMethodsPage";
+
+import SellerLayout from "./layouts/SellerLayout";
+import ProtectedSellerRoute from "./components/ProtectedSellerRoute";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
+      {/* Global Loading Animation */}
+      <GlobalLoader />
 
-        {/* Seller */}
+      <Routes>
+        {/* =================================
+                    Seller Login
+                ================================= */}
+
         <Route
           path="/seller/login"
           element={<SellerLoginPage />}
         />
 
+        {/* =================================
+                    Protected Seller Panel
+                ================================= */}
+
+        <Route element={<ProtectedSellerRoute />}>
+          <Route element={<SellerLayout />}>
+            {/* Seller Dashboard */}
+
+            <Route
+              path="/seller/dashboard"
+              element={<SellerDashboardPage />}
+            />
+
+            {/* Seller Products */}
+
+            <Route
+              path="/seller/products"
+              element={<SellerProductsPage />}
+            />
+
+            {/* Seller Orders */}
+
+            <Route
+              path="/seller/orders"
+              element={<SellerOrdersPage />}
+            />
+
+            {/* Seller Order Detail */}
+
+            <Route
+              path="/seller/orders/:id"
+              element={<SellerOrderDetailPage />}
+            />
+
+            {/* Seller Payment Methods */}
+
+            <Route
+              path="/seller/payment-methods"
+              element={
+                <SellerPaymentMethodsPage />
+              }
+            />
+
+            {/* Seller Store Settings */}
+
+            <Route
+              path="/seller/settings"
+              element={<SellerSettingsPage />}
+            />
+          </Route>
+        </Route>
+
+        {/* =================================
+                    Customer Order Tracking
+                ================================= */}
+
         <Route
-          path="/seller/dashboard"
-          element={<SellerDashboardPage />}
+          path="/track-order"
+          element={<OrderTrackingPage />}
         />
 
-        {/* Customer */}
+        {/* =================================
+                    Public Storefront
+                ================================= */}
+
         <Route
           path="/:slug"
-          element={<StorefrontPage />}
+          element={<StoreFrontPage />}
         />
+
+        {/* Public Product Detail */}
 
         <Route
           path="/:slug/products/:productSlug"
           element={<ProductDetailPage />}
         />
-
       </Routes>
     </BrowserRouter>
   );

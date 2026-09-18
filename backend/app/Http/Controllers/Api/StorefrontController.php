@@ -66,4 +66,30 @@ class StorefrontController extends Controller
             'product' => $product,
         ]);
     }
+
+    /**
+     * Get active payment methods for a public storefront.
+     */
+    public function paymentMethods(string $slug)
+    {
+        $store = Store::where('slug', $slug)
+            ->where('status', 'active')
+            ->firstOrFail();
+
+        $paymentMethods = $store->paymentMethods()
+            ->where('is_active', true)
+            ->latest()
+            ->get([
+                'id',
+                'type',
+                'account_name',
+                'account_number',
+                'qr_image',
+                'instructions',
+            ]);
+
+        return response()->json([
+            'payment_methods' => $paymentMethods,
+        ]);
+    }
 }

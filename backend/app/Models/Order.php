@@ -10,10 +10,21 @@ class Order extends Model
 {
     protected $fillable = [
         'store_id',
+        'payment_method_id',
+        'payment_proof',
         'order_number',
         'customer_name',
         'customer_phone',
         'customer_email',
+        'contact_platform',
+        'contact_name',
+        'contact_username',
+        'contact_link',
+        'fulfillment_type',
+        'fulfillment_status',
+        'voucher',
+        'purchase_proof',
+        'admin_notes',
         'total',
         'currency',
         'status',
@@ -33,5 +44,10 @@ class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function paymentMethod(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class);
     }
 }
