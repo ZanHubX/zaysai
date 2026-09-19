@@ -2,6 +2,7 @@ import {
     LayoutDashboard,
     Package,
     ShoppingBag,
+    Users,
     CreditCard,
     Settings,
     ExternalLink,
@@ -41,6 +42,11 @@ function SellerLayout() {
             label: "Orders",
             path: "/seller/orders",
             icon: ShoppingBag,
+        },
+        {
+            label: "Customers",
+            path: "/seller/customers",
+            icon: Users,
         },
         {
             label: "Payment Methods",

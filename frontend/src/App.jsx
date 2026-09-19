@@ -11,6 +11,7 @@ import SellerDashboardPage from "./pages/SellerDashboardPage";
 import SellerProductsPage from "./pages/SellerProductsPage";
 import SellerOrdersPage from "./pages/SellerOrdersPage";
 import SellerOrderDetailPage from "./pages/SellerOrderDetailPage";
+import SellerCustomersPage from "./pages/SellerCustomersPage";
 import SellerSettingsPage from "./pages/SellerSettingsPage";
 import SellerPaymentMethodsPage from "./pages/SellerPaymentMethodsPage";
 
@@ -39,49 +40,49 @@ function App() {
 
         <Route element={<ProtectedSellerRoute />}>
           <Route element={<SellerLayout />}>
-            {/* Seller Dashboard */}
 
+            {/* Seller Dashboard */}
             <Route
               path="/seller/dashboard"
               element={<SellerDashboardPage />}
             />
 
             {/* Seller Products */}
-
             <Route
               path="/seller/products"
               element={<SellerProductsPage />}
             />
 
             {/* Seller Orders */}
-
             <Route
               path="/seller/orders"
               element={<SellerOrdersPage />}
             />
 
             {/* Seller Order Detail */}
-
             <Route
               path="/seller/orders/:id"
               element={<SellerOrderDetailPage />}
             />
 
-            {/* Seller Payment Methods */}
+            {/* Seller Customers */}
+            <Route
+              path="/seller/customers"
+              element={<SellerCustomersPage />}
+            />
 
+            {/* Seller Payment Methods */}
             <Route
               path="/seller/payment-methods"
-              element={
-                <SellerPaymentMethodsPage />
-              }
+              element={<SellerPaymentMethodsPage />}
             />
 
             {/* Seller Store Settings */}
-
             <Route
               path="/seller/settings"
               element={<SellerSettingsPage />}
             />
+
           </Route>
         </Route>
 
@@ -104,7 +105,6 @@ function App() {
         />
 
         {/* Public Product Detail */}
-
         <Route
           path="/:slug/products/:productSlug"
           element={<ProductDetailPage />}

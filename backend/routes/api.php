@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\StorefrontController;
 use App\Http\Controllers\Api\SellerStoreController;
 use App\Http\Controllers\Api\SellerPaymentMethodController;
 use App\Http\Controllers\Api\SellerDashboardController;
+use App\Http\Controllers\Api\SellerCustomerController;
 
 
 /*
@@ -138,6 +139,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/seller/dashboard', [
         SellerDashboardController::class,
+        'index'
+    ]);
+
+    Route::get('/seller/customers', [
+        SellerCustomerController::class,
         'index'
     ]);
 
