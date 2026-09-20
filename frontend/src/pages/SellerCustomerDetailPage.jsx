@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
     ArrowLeft,
+    ExternalLink,
     Mail,
     Package,
     Phone,
@@ -30,9 +31,7 @@ function SellerCustomerDetailPage() {
             setError("");
 
             const response = await api.get(
-                `/seller/customers/${encodeURIComponent(
-                    phone
-                )}`
+                `/seller/customers/${encodeURIComponent(phone)}`
             );
 
             setCustomer(response.data.customer);
@@ -96,6 +95,7 @@ function SellerCustomerDetailPage() {
 
     return (
         <div className="seller-customer-detail-page">
+
             {/* =================================
                 Back
             ================================= */}
@@ -114,6 +114,7 @@ function SellerCustomerDetailPage() {
 
             <div className="customer-detail-header">
                 <div className="customer-profile">
+
                     <div className="customer-avatar">
                         <User size={28} />
                     </div>
@@ -132,6 +133,7 @@ function SellerCustomerDetailPage() {
                                 : "—"}
                         </p>
                     </div>
+
                 </div>
             </div>
 
@@ -140,7 +142,9 @@ function SellerCustomerDetailPage() {
             ================================= */}
 
             <div className="customer-detail-grid">
+
                 <div className="customer-info-card">
+
                     <div className="customer-card-title">
                         <User size={18} />
                         <span>
@@ -149,30 +153,37 @@ function SellerCustomerDetailPage() {
                     </div>
 
                     <div className="customer-info-list">
+
+                        {/* Phone */}
+
                         <div className="customer-info-item">
                             <Phone size={17} />
 
                             <div>
                                 <span>Phone</span>
+
                                 <strong>
-                                    {
-                                        customer.customer_phone
-                                    }
+                                    {customer.customer_phone}
                                 </strong>
                             </div>
                         </div>
+
+                        {/* Email */}
 
                         <div className="customer-info-item">
                             <Mail size={17} />
 
                             <div>
                                 <span>Email</span>
+
                                 <strong>
                                     {customer.customer_email ||
                                         "—"}
                                 </strong>
                             </div>
                         </div>
+
+                        {/* Contact Platform */}
 
                         <div className="customer-info-item">
                             <User size={17} />
@@ -189,6 +200,8 @@ function SellerCustomerDetailPage() {
                             </div>
                         </div>
 
+                        {/* Contact Username */}
+
                         <div className="customer-info-item">
                             <User size={17} />
 
@@ -203,6 +216,21 @@ function SellerCustomerDetailPage() {
                                 </strong>
                             </div>
                         </div>
+
+                        {/* Contact Customer */}
+
+                        {customer.contact_link && (
+                            <a
+                                href={customer.contact_link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="customer-contact-button"
+                            >
+                                <ExternalLink size={17} />
+                                Contact Customer
+                            </a>
+                        )}
+
                     </div>
                 </div>
 
@@ -211,14 +239,19 @@ function SellerCustomerDetailPage() {
                 ================================= */}
 
                 <div className="customer-stats-card">
+
                     <div className="customer-card-title">
                         <Package size={18} />
+
                         <span>
                             Customer Overview
                         </span>
                     </div>
 
                     <div className="customer-stats-grid">
+
+                        {/* Total Orders */}
+
                         <div className="customer-stat">
                             <span>
                                 Total Orders
@@ -229,6 +262,8 @@ function SellerCustomerDetailPage() {
                             </strong>
                         </div>
 
+                        {/* Total Spent */}
+
                         <div className="customer-stat">
                             <span>
                                 Total Spent
@@ -236,12 +271,13 @@ function SellerCustomerDetailPage() {
 
                             <strong>
                                 {Number(
-                                    customer.total_spent ||
-                                    0
+                                    customer.total_spent || 0
                                 ).toLocaleString()}{" "}
                                 MMK
                             </strong>
                         </div>
+
+                        {/* Last Order */}
 
                         <div className="customer-stat">
                             <span>
@@ -256,8 +292,10 @@ function SellerCustomerDetailPage() {
                                     : "—"}
                             </strong>
                         </div>
+
                     </div>
                 </div>
+
             </div>
 
             {/* =================================
@@ -265,20 +303,27 @@ function SellerCustomerDetailPage() {
             ================================= */}
 
             <div className="customer-orders-card">
+
                 <div className="customer-card-title">
                     <Package size={18} />
                     <span>Order History</span>
                 </div>
 
                 {orders.length === 0 ? (
+
                     <div className="customer-orders-empty">
                         No orders found.
                     </div>
+
                 ) : (
+
                     <div className="customer-orders-table-wrapper">
+
                         <table className="customer-orders-table">
+
                             <thead>
                                 <tr>
+
                                     <th>
                                         Order
                                     </th>
@@ -302,18 +347,23 @@ function SellerCustomerDetailPage() {
                                     <th>
                                         Date
                                     </th>
+
                                 </tr>
                             </thead>
 
                             <tbody>
+
                                 {orders.map(
                                     (order) => (
+
                                         <tr
-                                            key={
-                                                order.id
-                                            }
+                                            key={order.id}
                                         >
+
+                                            {/* Order */}
+
                                             <td>
+
                                                 <Link
                                                     to={`/seller/orders/${order.id}`}
                                                     className="customer-order-link"
@@ -322,9 +372,13 @@ function SellerCustomerDetailPage() {
                                                         order.order_number
                                                     }
                                                 </Link>
+
                                             </td>
 
+                                            {/* Total */}
+
                                             <td>
+
                                                 {Number(
                                                     order.total ||
                                                     0
@@ -332,9 +386,13 @@ function SellerCustomerDetailPage() {
                                                 {
                                                     order.currency
                                                 }
+
                                             </td>
 
+                                            {/* Order Status */}
+
                                             <td>
+
                                                 <span
                                                     className={`customer-status customer-status-${order.status}`}
                                                 >
@@ -342,9 +400,13 @@ function SellerCustomerDetailPage() {
                                                         order.status
                                                     }
                                                 </span>
+
                                             </td>
 
+                                            {/* Payment */}
+
                                             <td>
+
                                                 <span
                                                     className={`customer-status customer-payment-${order.payment_status}`}
                                                 >
@@ -352,9 +414,13 @@ function SellerCustomerDetailPage() {
                                                         order.payment_status
                                                     }
                                                 </span>
+
                                             </td>
 
+                                            {/* Fulfillment */}
+
                                             <td>
+
                                                 <span
                                                     className={`customer-status customer-fulfillment-${order.fulfillment_status}`}
                                                 >
@@ -362,23 +428,36 @@ function SellerCustomerDetailPage() {
                                                         order.fulfillment_status
                                                     }
                                                 </span>
+
                                             </td>
 
+                                            {/* Date */}
+
                                             <td>
+
                                                 {order.created_at
                                                     ? new Date(
                                                         order.created_at
                                                     ).toLocaleDateString()
                                                     : "—"}
+
                                             </td>
+
                                         </tr>
+
                                     )
                                 )}
+
                             </tbody>
+
                         </table>
+
                     </div>
+
                 )}
+
             </div>
+
         </div>
     );
 }

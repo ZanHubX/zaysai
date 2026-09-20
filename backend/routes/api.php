@@ -12,14 +12,19 @@ use App\Http\Controllers\Api\SellerPaymentMethodController;
 use App\Http\Controllers\Api\SellerDashboardController;
 use App\Http\Controllers\Api\SellerCustomerController;
 
+use App\Http\Controllers\Api\AdminAuthController;
+use App\Http\Controllers\Api\AdminDashboardController;
+use App\Http\Controllers\Api\AdminSellerController;
+use App\Http\Controllers\Api\AdminStoreController;
+use App\Http\Controllers\Api\AdminProductController;
+use App\Http\Controllers\Api\AdminOrderController;
+use App\Http\Controllers\Api\AdminSettingsController;
+
 
 /*
 |--------------------------------------------------------------------------
 | Public Routes
 |--------------------------------------------------------------------------
-|
-| Customer / public users can access these routes without login.
-|
 */
 
 
@@ -75,9 +80,6 @@ Route::get('/stores/{slug}/products/{productSlug}', [
 |--------------------------------------------------------------------------
 | Public Store Payment Methods
 |--------------------------------------------------------------------------
-|
-| Customers can see active payment methods during checkout.
-|
 */
 
 Route::get('/stores/{slug}/payment-methods', [
@@ -100,11 +102,20 @@ Route::post('/stores/{slug}/orders', [
 
 /*
 |--------------------------------------------------------------------------
+| Customer Order Tracking
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/orders/{orderNumber}/track', [
+    OrderController::class,
+    'track'
+]);
+
+
+/*
+|--------------------------------------------------------------------------
 | Protected Seller Routes
 |--------------------------------------------------------------------------
-|
-| Seller must login and send Sanctum Bearer Token.
-|
 */
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -115,13 +126,11 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    // Logged-in Seller Information
     Route::get('/me', [
         AuthController::class,
         'me'
     ]);
 
-    // Seller Logout
     Route::post('/logout', [
         AuthController::class,
         'logout'
@@ -132,9 +141,6 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     | Seller Dashboard
     |--------------------------------------------------------------------------
-    |
-    | Dashboard statistics and recent orders.
-    |
     */
 
     Route::get('/seller/dashboard', [
@@ -147,18 +153,13 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     | Seller Customers
     |--------------------------------------------------------------------------
-    |
-    | Customer list and customer order history.
-    |
     */
 
-    // Get Seller Customers
     Route::get('/seller/customers', [
         SellerCustomerController::class,
         'index'
     ]);
 
-    // Get Customer Detail
     Route::get('/seller/customers/{phone}', [
         SellerCustomerController::class,
         'show'
@@ -171,13 +172,11 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    // Get Store Settings
     Route::get('/seller/store', [
         SellerStoreController::class,
         'show'
     ]);
 
-    // Update Store Settings
     Route::put('/seller/store', [
         SellerStoreController::class,
         'update'
@@ -190,31 +189,26 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    // Get Payment Methods
     Route::get('/seller/payment-methods', [
         SellerPaymentMethodController::class,
         'index'
     ]);
 
-    // Create Payment Method
     Route::post('/seller/payment-methods', [
         SellerPaymentMethodController::class,
         'store'
     ]);
 
-    // Get Single Payment Method
     Route::get('/seller/payment-methods/{id}', [
         SellerPaymentMethodController::class,
         'show'
     ]);
 
-    // Update Payment Method
     Route::put('/seller/payment-methods/{id}', [
         SellerPaymentMethodController::class,
         'update'
     ]);
 
-    // Delete Payment Method
     Route::delete('/seller/payment-methods/{id}', [
         SellerPaymentMethodController::class,
         'destroy'
@@ -227,43 +221,36 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    // Get Seller Orders
     Route::get('/seller/orders', [
         SellerOrderController::class,
         'index'
     ]);
 
-    // Get Single Order
     Route::get('/seller/orders/{id}', [
         SellerOrderController::class,
         'show'
     ]);
 
-    // Get Payment Proof
     Route::get('/seller/orders/{id}/payment-proof', [
         SellerOrderController::class,
         'paymentProof'
     ]);
 
-    // Update Order Status
     Route::patch('/seller/orders/{id}/status', [
         SellerOrderController::class,
         'updateStatus'
     ]);
 
-    // Update Payment Status
     Route::patch('/seller/orders/{id}/payment-status', [
         SellerOrderController::class,
         'updatePaymentStatus'
     ]);
 
-    // Update Fulfillment Status
     Route::patch('/seller/orders/{id}/fulfillment-status', [
         SellerOrderController::class,
         'updateFulfillmentStatus'
     ]);
 
-    // Update Fulfillment Details
     Route::post('/seller/orders/{id}/fulfillment', [
         SellerOrderController::class,
         'updateFulfillment'
@@ -276,31 +263,26 @@ Route::middleware('auth:sanctum')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    // Get Products
     Route::get('/seller/products', [
         SellerProductController::class,
         'index'
     ]);
 
-    // Create Product
     Route::post('/seller/products', [
         SellerProductController::class,
         'store'
     ]);
 
-    // Get Single Product
     Route::get('/seller/products/{id}', [
         SellerProductController::class,
         'show'
     ]);
 
-    // Update Product
     Route::put('/seller/products/{id}', [
         SellerProductController::class,
         'update'
     ]);
 
-    // Delete Product
     Route::delete('/seller/products/{id}', [
         SellerProductController::class,
         'destroy'
@@ -310,11 +292,133 @@ Route::middleware('auth:sanctum')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Customer Order Tracking
+| Admin Authentication
 |--------------------------------------------------------------------------
 */
 
-Route::get('/orders/{orderNumber}/track', [
-    OrderController::class,
-    'track'
-]);
+
+/*
+|--------------------------------------------------------------------------
+| Admin Login
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('admin')->group(function () {
+
+    Route::post('/login', [
+        AdminAuthController::class,
+        'login'
+    ]);
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Protected Admin Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth:sanctum')
+    ->prefix('admin')
+    ->group(function () {
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Profile
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/me', [
+            AdminAuthController::class,
+            'me'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Logout
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post('/logout', [
+            AdminAuthController::class,
+            'logout'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Dashboard
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/dashboard', [
+            AdminDashboardController::class,
+            'index'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Sellers
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/sellers', [
+            AdminSellerController::class,
+            'index'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Stores
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/stores', [
+            AdminStoreController::class,
+            'index'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Products
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/products', [
+            AdminProductController::class,
+            'index'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Orders
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/orders', [
+            AdminOrderController::class,
+            'index'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Settings
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/settings', [
+            AdminSettingsController::class,
+            'index'
+        ]);
+
+        Route::put('/settings', [
+            AdminSettingsController::class,
+            'update'
+        ]);
+    });
