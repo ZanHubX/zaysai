@@ -1,53 +1,87 @@
+/* =================================
+   Page
+================================= */
+
 .seller-customers-page {
     padding: 28px;
 }
+
+
+/* =================================
+   Header
+================================= */
 
 .customers-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     gap: 20px;
+
     margin-bottom: 24px;
 }
 
 .customers-title-row {
     display: flex;
     align-items: center;
+
     gap: 14px;
 }
 
 .customers-title-icon {
     width: 46px;
     height: 46px;
+
+    flex-shrink: 0;
+
     border-radius: 12px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     background: #fce7f3;
     color: #db2777;
 }
 
 .customers-header h1 {
     margin: 0;
+
+    color: #111827;
+
     font-size: 28px;
     line-height: 1.2;
 }
 
 .customers-header p {
     margin: 6px 0 0;
+
     color: #6b7280;
+
     font-size: 14px;
 }
 
 .customers-count {
     padding: 9px 14px;
+
     border-radius: 10px;
+
     background: #f9fafb;
+
     border: 1px solid #e5e7eb;
+
     color: #374151;
+
     font-size: 14px;
     font-weight: 600;
+
+    white-space: nowrap;
 }
+
+
+/* =================================
+   Search
+================================= */
 
 .customers-toolbar {
     margin-bottom: 18px;
@@ -56,23 +90,40 @@
 .customers-search {
     width: 100%;
     max-width: 420px;
+
     height: 44px;
+
     display: flex;
     align-items: center;
+
     gap: 10px;
+
     padding: 0 14px;
+
+    box-sizing: border-box;
+
     border: 1px solid #e5e7eb;
     border-radius: 10px;
+
     background: #ffffff;
+
     color: #9ca3af;
 }
 
 .customers-search input {
     flex: 1;
+
+    min-width: 0;
+
+    width: 100%;
+
     border: none;
     outline: none;
+
     background: transparent;
+
     color: #111827;
+
     font-size: 14px;
 }
 
@@ -80,66 +131,227 @@
     color: #9ca3af;
 }
 
+
+/* =================================
+   Table Card
+================================= */
+
 .customers-table-card {
+    width: 100%;
+
     overflow: hidden;
+
     background: #ffffff;
+
     border: 1px solid #e5e7eb;
+
     border-radius: 14px;
+
+    box-sizing: border-box;
 }
 
 .customers-table-wrapper {
     width: 100%;
+
     overflow-x: auto;
 }
 
+
+/* =================================
+   Table
+================================= */
+
 .customers-table {
+    display: table !important;
+
     width: 100%;
+
+    min-width: 900px;
+
     border-collapse: collapse;
-    min-width: 850px;
+    border-spacing: 0;
+
+    table-layout: fixed;
+}
+
+
+/* =================================
+   Table Head
+================================= */
+
+.customers-table thead {
+    display: table-header-group !important;
+}
+
+.customers-table thead tr {
+    display: table-row !important;
 }
 
 .customers-table th {
+    display: table-cell !important;
+
     padding: 14px 18px;
+
+    box-sizing: border-box;
+
     text-align: left;
+
     background: #f9fafb;
+
     border-bottom: 1px solid #e5e7eb;
+
     color: #6b7280;
+
     font-size: 12px;
     font-weight: 700;
+
     text-transform: uppercase;
+
     letter-spacing: 0.03em;
+
+    white-space: nowrap;
+}
+
+
+/* =================================
+   Table Body
+================================= */
+
+.customers-table tbody {
+    display: table-row-group !important;
+}
+
+.customers-table tbody tr {
+    display: table-row !important;
+
+    width: 100%;
+
+    transition:
+        background-color 0.15s ease;
 }
 
 .customers-table td {
+    display: table-cell !important;
+
     padding: 16px 18px;
+
+    box-sizing: border-box;
+
     border-bottom: 1px solid #f3f4f6;
+
     color: #374151;
+
     font-size: 14px;
+
     vertical-align: middle;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
 }
 
 .customers-table tbody tr:last-child td {
     border-bottom: none;
 }
 
-.customers-table tbody tr:hover {
+
+/* =================================
+   Column Widths
+================================= */
+
+.customers-table th:nth-child(1),
+.customers-table td:nth-child(1) {
+    width: 28%;
+}
+
+.customers-table th:nth-child(2),
+.customers-table td:nth-child(2) {
+    width: 14%;
+}
+
+.customers-table th:nth-child(3),
+.customers-table td:nth-child(3) {
+    width: 22%;
+}
+
+.customers-table th:nth-child(4),
+.customers-table td:nth-child(4) {
+    width: 10%;
+}
+
+.customers-table th:nth-child(5),
+.customers-table td:nth-child(5) {
+    width: 13%;
+}
+
+.customers-table th:nth-child(6),
+.customers-table td:nth-child(6) {
+    width: 13%;
+}
+
+
+/* =================================
+   Customer Row
+================================= */
+
+.customer-row {
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease;
+}
+
+.customer-row:hover {
     background: #fafafa;
 }
 
+.customer-row:active {
+    background: #fdf2f8;
+}
+
+
+/* =================================
+   Customer Name
+================================= */
+
 .customer-name {
+    overflow: hidden;
+
     color: #111827;
+
     font-weight: 600;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
 }
 
 .customer-contact {
     margin-top: 4px;
+
+    overflow: hidden;
+
     color: #9ca3af;
+
     font-size: 12px;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
 }
+
+
+/* =================================
+   States
+================================= */
 
 .customers-state {
     padding: 40px 20px;
+
     text-align: center;
+
     color: #6b7280;
 }
 
@@ -147,12 +359,22 @@
     color: #dc2626;
 }
 
+
+/* =================================
+   Empty State
+================================= */
+
 .customers-empty {
     padding: 60px 20px;
+
     text-align: center;
+
     color: #9ca3af;
+
     background: #ffffff;
+
     border: 1px dashed #d1d5db;
+
     border-radius: 14px;
 }
 
@@ -162,26 +384,40 @@
 
 .customers-empty h3 {
     margin: 0 0 6px;
+
     color: #374151;
+
     font-size: 18px;
 }
 
 .customers-empty p {
     margin: 0;
+
     font-size: 14px;
 }
 
+
+/* =================================
+   Responsive
+================================= */
+
 @media (max-width: 768px) {
+
     .seller-customers-page {
         padding: 20px;
     }
 
     .customers-header {
         align-items: flex-start;
+
         flex-direction: column;
     }
 
     .customers-count {
         align-self: flex-start;
+    }
+
+    .customers-table {
+        min-width: 900px;
     }
 }

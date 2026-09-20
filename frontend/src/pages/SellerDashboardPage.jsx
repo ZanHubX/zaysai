@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import {
     ArrowUpRight,
     CheckCircle2,
@@ -11,16 +12,27 @@ import {
 } from "lucide-react";
 
 import api from "../services/api";
+
 import "./SellerDashboardPage.css";
 
 function SellerDashboardPage() {
     const [seller, setSeller] = useState(null);
     const [store, setStore] = useState(null);
     const [stats, setStats] = useState(null);
+
+    const [salesOverview, setSalesOverview] = useState([]);
+    const [topProducts, setTopProducts] = useState([]);
+
     const [recentOrders, setRecentOrders] = useState([]);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Load Dashboard
+    |--------------------------------------------------------------------------
+    */
 
     useEffect(() => {
         const loadDashboard = async () => {
@@ -33,14 +45,32 @@ function SellerDashboardPage() {
                 );
 
                 setStore(response.data.store);
-                setStats(response.data.stats || {});
+
+                setStats(
+                    response.data.stats || {}
+                );
+
+                setSalesOverview(
+                    response.data.sales_overview || []
+                );
+
+                setTopProducts(
+                    response.data.top_products || []
+                );
+
                 setRecentOrders(
                     response.data.recent_orders || []
                 );
 
-                // Seller information
+                /*
+                |--------------------------------------------------------------------------
+                | Seller Information
+                |--------------------------------------------------------------------------
+                */
+
                 try {
-                    const meResponse = await api.get("/me");
+                    const meResponse =
+                        await api.get("/me");
 
                     setSeller(
                         meResponse.data.user || null
@@ -69,6 +99,12 @@ function SellerDashboardPage() {
         loadDashboard();
     }, []);
 
+    /*
+    |--------------------------------------------------------------------------
+    | Loading
+    |--------------------------------------------------------------------------
+    */
+
     if (loading) {
         return (
             <div className="dashboard-loading">
@@ -77,10 +113,18 @@ function SellerDashboardPage() {
         );
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Error
+    |--------------------------------------------------------------------------
+    */
+
     if (error) {
         return (
             <div className="dashboard-error">
-                <h2>Unable to load dashboard</h2>
+                <h2>
+                    Unable to load dashboard
+                </h2>
 
                 <p>{error}</p>
 
@@ -96,9 +140,34 @@ function SellerDashboardPage() {
         );
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Revenue
+    |--------------------------------------------------------------------------
+    */
+
     const revenue = Number(
         stats?.revenue || 0
     ).toLocaleString();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sales Chart
+    |--------------------------------------------------------------------------
+    */
+
+    const maxRevenue = Math.max(
+        ...salesOverview.map((item) =>
+            Number(item.revenue || 0)
+        ),
+        1
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | Page
+    |--------------------------------------------------------------------------
+    */
 
     return (
         <div className="overview-page">
@@ -110,7 +179,6 @@ function SellerDashboardPage() {
             <div className="overview-top">
 
                 <div>
-
                     <span className="overview-label">
                         SELLER WORKSPACE
                     </span>
@@ -123,10 +191,9 @@ function SellerDashboardPage() {
                     </h1>
 
                     <p>
-                        Here's what's happening with
-                        your store today.
+                        Here's what's happening
+                        with your store today.
                     </p>
-
                 </div>
 
                 <a
@@ -153,6 +220,7 @@ function SellerDashboardPage() {
                 <div className="hero-content">
 
                     <div className="store-icon">
+
                         {store?.logo ? (
                             <img
                                 src={store.logo}
@@ -161,6 +229,7 @@ function SellerDashboardPage() {
                         ) : (
                             <Store size={25} />
                         )}
+
                     </div>
 
                     <div>
@@ -170,7 +239,8 @@ function SellerDashboardPage() {
                         </span>
 
                         <h2>
-                            {store?.name || "Your Store"}
+                            {store?.name ||
+                                "Your Store"}
                         </h2>
 
                         <p>
@@ -189,7 +259,8 @@ function SellerDashboardPage() {
                 >
                     <span></span>
 
-                    {store?.status || "inactive"}
+                    {store?.status ||
+                        "inactive"}
                 </div>
 
             </div>
@@ -232,7 +303,9 @@ function SellerDashboardPage() {
                 <div className="overview-stat-card">
 
                     <div className="stat-icon blue">
-                        <ShoppingBag size={21} />
+                        <ShoppingBag
+                            size={21}
+                        />
                     </div>
 
                     <div>
@@ -242,13 +315,19 @@ function SellerDashboardPage() {
                         </span>
 
                         <strong>
-                            {stats?.total_orders || 0}
+                            {stats?.total_orders ||
+                                0}
                         </strong>
 
                     </div>
 
-                    <Link to="/seller/orders">
-                        <ArrowUpRight size={18} />
+                    <Link
+                        to="/seller/orders"
+                        className="stat-link"
+                    >
+                        <ArrowUpRight
+                            size={18}
+                        />
                     </Link>
 
                 </div>
@@ -269,13 +348,19 @@ function SellerDashboardPage() {
                         </span>
 
                         <strong>
-                            {stats?.total_products || 0}
+                            {stats?.total_products ||
+                                0}
                         </strong>
 
                     </div>
 
-                    <Link to="/seller/products">
-                        <ArrowUpRight size={18} />
+                    <Link
+                        to="/seller/products"
+                        className="stat-link"
+                    >
+                        <ArrowUpRight
+                            size={18}
+                        />
                     </Link>
 
                 </div>
@@ -289,6 +374,8 @@ function SellerDashboardPage() {
 
             <div className="dashboard-status-grid">
 
+                {/* Pending */}
+
                 <div className="dashboard-mini-stat">
 
                     <div className="mini-stat-icon warning">
@@ -301,17 +388,22 @@ function SellerDashboardPage() {
                         </span>
 
                         <strong>
-                            {stats?.pending_orders || 0}
+                            {stats?.pending_orders ||
+                                0}
                         </strong>
                     </div>
 
                 </div>
 
 
+                {/* Processing */}
+
                 <div className="dashboard-mini-stat">
 
                     <div className="mini-stat-icon blue">
-                        <ShoppingBag size={19} />
+                        <ShoppingBag
+                            size={19}
+                        />
                     </div>
 
                     <div>
@@ -320,17 +412,22 @@ function SellerDashboardPage() {
                         </span>
 
                         <strong>
-                            {stats?.processing_orders || 0}
+                            {stats?.processing_orders ||
+                                0}
                         </strong>
                     </div>
 
                 </div>
 
 
+                {/* Completed */}
+
                 <div className="dashboard-mini-stat">
 
                     <div className="mini-stat-icon green">
-                        <CheckCircle2 size={19} />
+                        <CheckCircle2
+                            size={19}
+                        />
                     </div>
 
                     <div>
@@ -339,12 +436,15 @@ function SellerDashboardPage() {
                         </span>
 
                         <strong>
-                            {stats?.completed_orders || 0}
+                            {stats?.completed_orders ||
+                                0}
                         </strong>
                     </div>
 
                 </div>
 
+
+                {/* Paid */}
 
                 <div className="dashboard-mini-stat">
 
@@ -358,9 +458,216 @@ function SellerDashboardPage() {
                         </span>
 
                         <strong>
-                            {stats?.paid_orders || 0}
+                            {stats?.paid_orders ||
+                                0}
                         </strong>
                     </div>
+
+                </div>
+
+            </div>
+
+
+            {/* =================================================
+                SALES ANALYTICS
+            ================================================= */}
+
+            <div className="dashboard-analytics-grid">
+
+                {/* =================================================
+                    SALES OVERVIEW
+                ================================================= */}
+
+                <div className="sales-overview-card">
+
+                    <div className="analytics-header">
+
+                        <div>
+                            <h2>
+                                Sales Overview
+                            </h2>
+
+                            <p>
+                                Paid sales from the
+                                last 7 days.
+                            </p>
+                        </div>
+
+                        <span className="analytics-period">
+                            Last 7 days
+                        </span>
+
+                    </div>
+
+                    {salesOverview.length ===
+                        0 ? (
+
+                        <div className="analytics-empty">
+                            No sales data yet.
+                        </div>
+
+                    ) : (
+
+                        <div className="sales-chart">
+
+                            {salesOverview.map(
+                                (day) => {
+                                    const revenue =
+                                        Number(
+                                            day.revenue ||
+                                            0
+                                        );
+
+                                    const height =
+                                        revenue > 0
+                                            ? Math.max(
+                                                (revenue /
+                                                    maxRevenue) *
+                                                100,
+                                                8
+                                            )
+                                            : 2;
+
+                                    return (
+                                        <div
+                                            className="sales-chart-day"
+                                            key={
+                                                day.date
+                                            }
+                                        >
+
+                                            <div className="sales-bar-wrapper">
+
+                                                <div
+                                                    className="sales-bar"
+                                                    style={{
+                                                        height: `${height}%`,
+                                                    }}
+                                                    title={`${revenue.toLocaleString()} MMK`}
+                                                ></div>
+
+                                            </div>
+
+                                            <strong>
+                                                {revenue >
+                                                    0
+                                                    ? `${(
+                                                        revenue /
+                                                        1000
+                                                    ).toLocaleString()}k`
+                                                    : "0"}
+                                            </strong>
+
+                                            <span>
+                                                {
+                                                    day.label
+                                                }
+                                            </span>
+
+                                        </div>
+                                    );
+                                }
+                            )}
+
+                        </div>
+                    )}
+
+                </div>
+
+
+                {/* =================================================
+                    TOP PRODUCTS
+                ================================================= */}
+
+                <div className="top-products-card">
+
+                    <div className="analytics-header">
+
+                        <div>
+                            <h2>
+                                Top Products
+                            </h2>
+
+                            <p>
+                                Best-selling
+                                products by
+                                revenue.
+                            </p>
+                        </div>
+
+                        <Link
+                            to="/seller/products"
+                            className="view-all-link"
+                        >
+                            View all
+                            <ArrowUpRight
+                                size={15}
+                            />
+                        </Link>
+
+                    </div>
+
+                    {topProducts.length ===
+                        0 ? (
+
+                        <div className="analytics-empty">
+                            No product sales
+                            yet.
+                        </div>
+
+                    ) : (
+
+                        <div className="top-products-list">
+
+                            {topProducts.map(
+                                (
+                                    product,
+                                    index
+                                ) => (
+                                    <div
+                                        className="top-product-item"
+                                        key={
+                                            product.product_id ??
+                                            `${product.product_name}-${index}`
+                                        }
+                                    >
+
+                                        <div className="top-product-rank">
+                                            {index +
+                                                1}
+                                        </div>
+
+                                        <div className="top-product-info">
+
+                                            <strong>
+                                                {
+                                                    product.product_name
+                                                }
+                                            </strong>
+
+                                            <span>
+                                                {
+                                                    product.total_quantity
+                                                }{" "}
+                                                sold
+                                            </span>
+
+                                        </div>
+
+                                        <strong className="top-product-revenue">
+                                            {Number(
+                                                product.total_revenue ||
+                                                0
+                                            ).toLocaleString()}{" "}
+                                            MMK
+                                        </strong>
+
+                                    </div>
+                                )
+                            )}
+
+                        </div>
+                    )}
 
                 </div>
 
@@ -376,14 +683,17 @@ function SellerDashboardPage() {
                 <div className="payment-overview-title">
 
                     <div>
+
                         <h2>
                             Payment Overview
                         </h2>
 
                         <p>
-                            Current payment status across
-                            your orders.
+                            Current payment
+                            status across your
+                            orders.
                         </p>
+
                     </div>
 
                 </div>
@@ -396,7 +706,8 @@ function SellerDashboardPage() {
                         </span>
 
                         <strong className="paid-number">
-                            {stats?.paid_orders || 0}
+                            {stats?.paid_orders ||
+                                0}
                         </strong>
                     </div>
 
@@ -406,7 +717,8 @@ function SellerDashboardPage() {
                         </span>
 
                         <strong className="unpaid-number">
-                            {stats?.unpaid_orders || 0}
+                            {stats?.unpaid_orders ||
+                                0}
                         </strong>
                     </div>
 
@@ -430,7 +742,8 @@ function SellerDashboardPage() {
                         </h2>
 
                         <p>
-                            Your latest customer activity.
+                            Your latest customer
+                            activity.
                         </p>
 
                     </div>
@@ -440,25 +753,31 @@ function SellerDashboardPage() {
                         className="view-all-link"
                     >
                         View all
-                        <ArrowUpRight size={15} />
+                        <ArrowUpRight
+                            size={15}
+                        />
                     </Link>
 
                 </div>
 
 
-                {recentOrders.length === 0 ? (
+                {recentOrders.length ===
+                    0 ? (
 
                     <div className="empty-orders">
 
-                        <ShoppingBag size={30} />
+                        <ShoppingBag
+                            size={30}
+                        />
 
                         <h3>
                             No orders yet
                         </h3>
 
                         <p>
-                            Your customer orders will
-                            appear here.
+                            Your customer
+                            orders will appear
+                            here.
                         </p>
 
                     </div>
@@ -472,7 +791,6 @@ function SellerDashboardPage() {
                             <thead>
 
                                 <tr>
-
                                     <th>
                                         Order
                                     </th>
@@ -492,7 +810,6 @@ function SellerDashboardPage() {
                                     <th>
                                         Status
                                     </th>
-
                                 </tr>
 
                             </thead>
@@ -518,18 +835,41 @@ function SellerDashboardPage() {
                                                     }
                                                 </Link>
 
+                                                <span className="dashboard-order-date">
+                                                    {order.created_at
+                                                        ? new Date(
+                                                            order.created_at
+                                                        ).toLocaleDateString()
+                                                        : "—"}
+                                                </span>
+
                                             </td>
 
                                             <td>
-                                                {
-                                                    order.customer_name
-                                                }
+
+                                                <div className="dashboard-customer">
+
+                                                    <strong>
+                                                        {
+                                                            order.customer_name
+                                                        }
+                                                    </strong>
+
+                                                    <span>
+                                                        {
+                                                            order.customer_phone
+                                                        }
+                                                    </span>
+
+                                                </div>
+
                                             </td>
 
                                             <td className="order-total">
 
                                                 {Number(
-                                                    order.total
+                                                    order.total ||
+                                                    0
                                                 ).toLocaleString()}{" "}
                                                 {
                                                     order.currency
