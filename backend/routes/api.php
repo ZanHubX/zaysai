@@ -142,9 +142,26 @@ Route::middleware('auth:sanctum')->group(function () {
         'index'
     ]);
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Seller Customers
+    |--------------------------------------------------------------------------
+    |
+    | Customer list and customer order history.
+    |
+    */
+
+    // Get Seller Customers
     Route::get('/seller/customers', [
         SellerCustomerController::class,
         'index'
+    ]);
+
+    // Get Customer Detail
+    Route::get('/seller/customers/{phone}', [
+        SellerCustomerController::class,
+        'show'
     ]);
 
 
@@ -289,6 +306,7 @@ Route::middleware('auth:sanctum')->group(function () {
         'destroy'
     ]);
 });
+
 
 /*
 |--------------------------------------------------------------------------

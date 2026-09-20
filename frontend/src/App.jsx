@@ -14,7 +14,7 @@ import SellerOrderDetailPage from "./pages/SellerOrderDetailPage";
 import SellerCustomersPage from "./pages/SellerCustomersPage";
 import SellerSettingsPage from "./pages/SellerSettingsPage";
 import SellerPaymentMethodsPage from "./pages/SellerPaymentMethodsPage";
-
+import SellerCustomerDetailPage from "./pages/SellerCustomerDetailPage";
 import SellerLayout from "./layouts/SellerLayout";
 import ProtectedSellerRoute from "./components/ProtectedSellerRoute";
 
@@ -70,7 +70,10 @@ function App() {
               path="/seller/customers"
               element={<SellerCustomersPage />}
             />
-
+            <Route
+              path="/seller/customers/:phone"
+              element={<SellerCustomerDetailPage />}
+            />
             {/* Seller Payment Methods */}
             <Route
               path="/seller/payment-methods"

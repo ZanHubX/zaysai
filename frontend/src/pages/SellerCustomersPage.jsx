@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { Users, Search } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import api from "../services/api";
 
 import "./SellerCustomersPage.css";
 
 function SellerCustomersPage() {
+    const navigate = useNavigate();
+
     const [customers, setCustomers] = useState([]);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
@@ -42,6 +45,10 @@ function SellerCustomersPage() {
         }
     };
 
+    /* =================================
+       Search
+    ================================= */
+
     const filteredCustomers = customers.filter(
         (customer) => {
             const keyword = search
@@ -66,31 +73,52 @@ function SellerCustomersPage() {
         }
     );
 
+    /* =================================
+       Customer Detail
+    ================================= */
+
+    const handleCustomerClick = (customer) => {
+        const phone = encodeURIComponent(
+            customer.customer_phone
+        );
+
+        navigate(
+            `/seller/customers/${phone}`
+        );
+    };
+
     return (
         <div className="seller-customers-page">
+
             {/* =================================
                 Header
             ================================= */}
 
             <div className="customers-header">
+
                 <div className="customers-title-row">
+
                     <div className="customers-title-icon">
                         <Users size={22} />
                     </div>
 
                     <div>
-                        <h1>Customers</h1>
+                        <h1>
+                            Customers
+                        </h1>
 
                         <p>
                             View customers who have
                             ordered from your store.
                         </p>
                     </div>
+
                 </div>
 
                 <div className="customers-count">
                     {customers.length} Customers
                 </div>
+
             </div>
 
             {/* =================================
@@ -98,7 +126,9 @@ function SellerCustomersPage() {
             ================================= */}
 
             <div className="customers-toolbar">
+
                 <div className="customers-search">
+
                     <Search size={18} />
 
                     <input
@@ -111,7 +141,9 @@ function SellerCustomersPage() {
                             )
                         }
                     />
+
                 </div>
+
             </div>
 
             {/* =================================
@@ -142,6 +174,7 @@ function SellerCustomersPage() {
                 !error &&
                 filteredCustomers.length === 0 && (
                     <div className="customers-empty">
+
                         <Users size={36} />
 
                         <h3>
@@ -149,9 +182,11 @@ function SellerCustomersPage() {
                         </h3>
 
                         <p>
-                            Customers will appear here
-                            after they place orders.
+                            Customers will appear
+                            here after they place
+                            orders.
                         </p>
+
                     </div>
                 )}
 
@@ -163,10 +198,15 @@ function SellerCustomersPage() {
                 !error &&
                 filteredCustomers.length > 0 && (
                     <div className="customers-table-card">
+
                         <div className="customers-table-wrapper">
+
                             <table className="customers-table">
+
                                 <thead>
+
                                     <tr>
+
                                         <th>
                                             Customer
                                         </th>
@@ -190,23 +230,37 @@ function SellerCustomersPage() {
                                         <th>
                                             Last Order
                                         </th>
+
                                     </tr>
+
                                 </thead>
 
                                 <tbody>
+
                                     {filteredCustomers.map(
                                         (customer) => (
                                             <tr
                                                 key={
                                                     customer.customer_phone
                                                 }
+                                                className="customer-row"
+                                                onClick={() =>
+                                                    handleCustomerClick(
+                                                        customer
+                                                    )
+                                                }
                                             >
+
                                                 {/* Customer */}
+
                                                 <td>
+
                                                     <div className="customer-name">
+
                                                         {
                                                             customer.customer_name
                                                         }
+
                                                     </div>
 
                                                     {customer.contact_username && (
@@ -216,9 +270,11 @@ function SellerCustomersPage() {
                                                             }
                                                         </div>
                                                     )}
+
                                                 </td>
 
                                                 {/* Phone */}
+
                                                 <td>
                                                     {
                                                         customer.customer_phone
@@ -226,6 +282,7 @@ function SellerCustomersPage() {
                                                 </td>
 
                                                 {/* Email */}
+
                                                 <td>
                                                     {
                                                         customer.customer_email ||
@@ -234,6 +291,7 @@ function SellerCustomersPage() {
                                                 </td>
 
                                                 {/* Orders */}
+
                                                 <td>
                                                     {
                                                         customer.total_orders
@@ -241,6 +299,7 @@ function SellerCustomersPage() {
                                                 </td>
 
                                                 {/* Total Spent */}
+
                                                 <td>
                                                     {Number(
                                                         customer.total_spent ||
@@ -250,6 +309,7 @@ function SellerCustomersPage() {
                                                 </td>
 
                                                 {/* Last Order */}
+
                                                 <td>
                                                     {customer.last_order_at
                                                         ? new Date(
@@ -257,14 +317,20 @@ function SellerCustomersPage() {
                                                         ).toLocaleDateString()
                                                         : "—"}
                                                 </td>
+
                                             </tr>
                                         )
                                     )}
+
                                 </tbody>
+
                             </table>
+
                         </div>
+
                     </div>
                 )}
+
         </div>
     );
 }
