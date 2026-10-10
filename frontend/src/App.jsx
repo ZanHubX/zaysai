@@ -6,7 +6,7 @@ import GlobalLoader from "./components/GlobalLoader";
 // Public Pages
 // =========================================================
 
-import StoreFrontPage from "./pages/StoreFrontPage";
+import StoreFrontPage from "./pages/StorefrontPage.jsx";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import OrderTrackingPage from "./pages/OrderTrackingPage";
 
