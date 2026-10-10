@@ -15,6 +15,13 @@ class AdminSettingsController extends Controller
             'platform_description' => 'Digital Seller Storefront Platform',
             'support_email' => '',
             'support_telegram' => '',
+
+            // Contact Admin
+            'contact_platform' => 'Telegram',
+            'contact_name' => '',
+            'contact_username' => '',
+            'contact_link' => '',
+
             'currency' => 'MMK',
             'seller_registration' => 'true',
             'maintenance_mode' => 'false',
@@ -32,14 +39,18 @@ class AdminSettingsController extends Controller
                 'platform_description' => $settings['platform_description'],
                 'support_email' => $settings['support_email'],
                 'support_telegram' => $settings['support_telegram'],
+
+                'contact_platform' => $settings['contact_platform'],
+                'contact_name' => $settings['contact_name'],
+                'contact_username' => $settings['contact_username'],
+                'contact_link' => $settings['contact_link'],
+
                 'currency' => $settings['currency'],
-                'seller_registration' =>
-                filter_var(
+                'seller_registration' => filter_var(
                     $settings['seller_registration'],
                     FILTER_VALIDATE_BOOLEAN
                 ),
-                'maintenance_mode' =>
-                filter_var(
+                'maintenance_mode' => filter_var(
                     $settings['maintenance_mode'],
                     FILTER_VALIDATE_BOOLEAN
                 ),
@@ -74,6 +85,30 @@ class AdminSettingsController extends Controller
                 'max:150',
             ],
 
+            'contact_platform' => [
+                'required',
+                'string',
+                'max:30',
+            ],
+
+            'contact_name' => [
+                'nullable',
+                'string',
+                'max:100',
+            ],
+
+            'contact_username' => [
+                'nullable',
+                'string',
+                'max:150',
+            ],
+
+            'contact_link' => [
+                'nullable',
+                'url',
+                'max:500',
+            ],
+
             'currency' => [
                 'required',
                 'string',
@@ -99,6 +134,16 @@ class AdminSettingsController extends Controller
             $validated['support_email'] ?? '',
             'support_telegram' =>
             $validated['support_telegram'] ?? '',
+
+            'contact_platform' =>
+            $validated['contact_platform'],
+            'contact_name' =>
+            $validated['contact_name'] ?? '',
+            'contact_username' =>
+            $validated['contact_username'] ?? '',
+            'contact_link' =>
+            $validated['contact_link'] ?? '',
+
             'currency' => $validated['currency'],
             'seller_registration' =>
             $validated['seller_registration']
@@ -127,6 +172,16 @@ class AdminSettingsController extends Controller
                 $settings['support_email'],
                 'support_telegram' =>
                 $settings['support_telegram'],
+
+                'contact_platform' =>
+                $settings['contact_platform'],
+                'contact_name' =>
+                $settings['contact_name'],
+                'contact_username' =>
+                $settings['contact_username'],
+                'contact_link' =>
+                $settings['contact_link'],
+
                 'currency' => $settings['currency'],
                 'seller_registration' =>
                 $validated['seller_registration'],

@@ -2,15 +2,42 @@
 
 use Illuminate\Support\Facades\Route;
 
+/*
+|--------------------------------------------------------------------------
+| Controllers
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| Public / Common Controllers
+|--------------------------------------------------------------------------
+*/
+
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\StorefrontController;
+use App\Http\Controllers\Api\MaintenanceStatusController;
+
+/*
+|--------------------------------------------------------------------------
+| Seller Controllers
+|--------------------------------------------------------------------------
+*/
+
 use App\Http\Controllers\Api\SellerOrderController;
 use App\Http\Controllers\Api\SellerProductController;
-use App\Http\Controllers\Api\StorefrontController;
 use App\Http\Controllers\Api\SellerStoreController;
 use App\Http\Controllers\Api\SellerPaymentMethodController;
 use App\Http\Controllers\Api\SellerDashboardController;
 use App\Http\Controllers\Api\SellerCustomerController;
+use App\Http\Controllers\Api\SellerSubscriptionPaymentController;
+
+/*
+|--------------------------------------------------------------------------
+| Admin Controllers
+|--------------------------------------------------------------------------
+*/
 
 use App\Http\Controllers\Api\AdminAuthController;
 use App\Http\Controllers\Api\AdminDashboardController;
@@ -18,14 +45,28 @@ use App\Http\Controllers\Api\AdminSellerController;
 use App\Http\Controllers\Api\AdminStoreController;
 use App\Http\Controllers\Api\AdminProductController;
 use App\Http\Controllers\Api\AdminOrderController;
+use App\Http\Controllers\Api\AdminSubscriptionController;
+use App\Http\Controllers\Api\AdminSubscriptionPaymentController;
+use App\Http\Controllers\Api\AdminSubscriptionPaymentMethodController;
 use App\Http\Controllers\Api\AdminSettingsController;
 
 
 /*
 |--------------------------------------------------------------------------
-| Public Routes
+| PUBLIC ROUTES
 |--------------------------------------------------------------------------
 */
+
+/*
+|--------------------------------------------------------------------------
+| Maintenance Status
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/maintenance-status', [
+    MaintenanceStatusController::class,
+    'index'
+]);
 
 
 /*
@@ -114,7 +155,19 @@ Route::get('/orders/{orderNumber}/track', [
 
 /*
 |--------------------------------------------------------------------------
-| Protected Seller Routes
+| Public Contact Admin Settings
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/settings/contact-admin', [
+    \App\Http\Controllers\Api\PublicSettingsController::class,
+    'contactAdmin'
+]);
+
+
+/*
+|--------------------------------------------------------------------------
+| PROTECTED SELLER ROUTES
 |--------------------------------------------------------------------------
 */
 
@@ -287,19 +340,102 @@ Route::middleware('auth:sanctum')->group(function () {
         SellerProductController::class,
         'destroy'
     ]);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SELLER SUBSCRIPTION
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | Available Subscription Plans
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/seller/subscription/plans', [
+        SellerSubscriptionPaymentController::class,
+        'plans'
+    ]);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Available Subscription Payment Methods
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/seller/subscription/payment-methods', [
+        SellerSubscriptionPaymentController::class,
+        'paymentMethods'
+    ]);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Subscription Payment Method QR
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/seller/subscription/payment-methods/{id}/qr', [
+        SellerSubscriptionPaymentController::class,
+        'paymentMethodQr'
+    ]);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Seller Subscription Payment History
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/seller/subscription/payments', [
+        SellerSubscriptionPaymentController::class,
+        'index'
+    ]);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create Subscription Payment Request
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post('/seller/subscription/payments', [
+        SellerSubscriptionPaymentController::class,
+        'store'
+    ]);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Upload Subscription Payment Proof
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post('/seller/subscription/payments/{id}/proof', [
+        SellerSubscriptionPaymentController::class,
+        'uploadProof'
+    ]);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Seller View Subscription Payment Proof
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/seller/subscription/payments/{id}/proof', [
+        SellerSubscriptionPaymentController::class,
+        'paymentProof'
+    ]);
 });
 
 
 /*
 |--------------------------------------------------------------------------
-| Admin Authentication
-|--------------------------------------------------------------------------
-*/
-
-
-/*
-|--------------------------------------------------------------------------
-| Admin Login
+| ADMIN LOGIN
 |--------------------------------------------------------------------------
 */
 
@@ -314,11 +450,19 @@ Route::prefix('admin')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Protected Admin Routes
+| PROTECTED ADMIN ROUTES
+|--------------------------------------------------------------------------
+|
+| auth:sanctum
+| admin
+|
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth:sanctum')
+Route::middleware([
+    'auth:sanctum',
+    'admin'
+])
     ->prefix('admin')
     ->group(function () {
 
@@ -369,6 +513,73 @@ Route::middleware('auth:sanctum')
             'index'
         ]);
 
+        Route::get('/sellers/{id}', [
+            AdminSellerController::class,
+            'show'
+        ]);
+
+        Route::patch('/sellers/{id}/status', [
+            AdminSellerController::class,
+            'updateStatus'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Seller Subscription
+        |--------------------------------------------------------------------------
+        */
+
+        /*
+        |--------------------------------------------------------------------------
+        | All Subscriptions
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/subscriptions', [
+            AdminSubscriptionController::class,
+            'index'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Existing Subscription Detail Route
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/subscriptions/{sellerId}', [
+            AdminSubscriptionController::class,
+            'show'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | IMPORTANT:
+        | Seller Detail Page uses:
+        |
+        | GET /admin/sellers/{sellerId}/subscription
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/sellers/{sellerId}/subscription', [
+            AdminSubscriptionController::class,
+            'show'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Create / Update Seller Subscription
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post('/sellers/{id}/subscription', [
+            AdminSubscriptionController::class,
+            'update'
+        ]);
+
 
         /*
         |--------------------------------------------------------------------------
@@ -379,6 +590,11 @@ Route::middleware('auth:sanctum')
         Route::get('/stores', [
             AdminStoreController::class,
             'index'
+        ]);
+
+        Route::get('/stores/{id}', [
+            AdminStoreController::class,
+            'show'
         ]);
 
 
@@ -393,6 +609,16 @@ Route::middleware('auth:sanctum')
             'index'
         ]);
 
+        Route::get('/products/{id}', [
+            AdminProductController::class,
+            'show'
+        ]);
+
+        Route::patch('/products/{id}/status', [
+            AdminProductController::class,
+            'updateStatus'
+        ]);
+
 
         /*
         |--------------------------------------------------------------------------
@@ -405,6 +631,170 @@ Route::middleware('auth:sanctum')
             'index'
         ]);
 
+        Route::get('/orders/{id}', [
+            AdminOrderController::class,
+            'show'
+        ]);
+
+        Route::patch('/orders/{id}/status', [
+            AdminOrderController::class,
+            'updateStatus'
+        ]);
+
+        Route::get('/orders/{id}/payment-proof', [
+            AdminOrderController::class,
+            'paymentProof'
+        ]);
+
+        Route::get('/orders/{id}/purchase-proof', [
+            AdminOrderController::class,
+            'purchaseProof'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | ADMIN SUBSCRIPTION PAYMENT METHODS
+        |--------------------------------------------------------------------------
+        */
+
+        /*
+        |--------------------------------------------------------------------------
+        | List Payment Methods
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/subscription-payment-methods', [
+            AdminSubscriptionPaymentMethodController::class,
+            'index'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Show Payment Method
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/subscription-payment-methods/{id}', [
+            AdminSubscriptionPaymentMethodController::class,
+            'show'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Create Payment Method
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post('/subscription-payment-methods', [
+            AdminSubscriptionPaymentMethodController::class,
+            'store'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Update Payment Method
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post('/subscription-payment-methods/{id}', [
+            AdminSubscriptionPaymentMethodController::class,
+            'update'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Delete Payment Method
+        |--------------------------------------------------------------------------
+        */
+
+        Route::delete('/subscription-payment-methods/{id}', [
+            AdminSubscriptionPaymentMethodController::class,
+            'destroy'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Payment Method QR Image
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/subscription-payment-methods/{id}/qr', [
+            AdminSubscriptionPaymentMethodController::class,
+            'qrImage'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | ADMIN SUBSCRIPTION PAYMENTS
+        |--------------------------------------------------------------------------
+        */
+
+        /*
+        |--------------------------------------------------------------------------
+        | Payment List
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/subscription-payments', [
+            AdminSubscriptionPaymentController::class,
+            'index'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Payment Detail
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/subscription-payments/{id}', [
+            AdminSubscriptionPaymentController::class,
+            'show'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Payment Proof
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/subscription-payments/{id}/proof', [
+            AdminSubscriptionPaymentController::class,
+            'paymentProof'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Approve Payment
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post('/subscription-payments/{id}/approve', [
+            AdminSubscriptionPaymentController::class,
+            'approve'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Reject Payment
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post('/subscription-payments/{id}/reject', [
+            AdminSubscriptionPaymentController::class,
+            'reject'
+        ]);
+
 
         /*
         |--------------------------------------------------------------------------
@@ -412,10 +802,23 @@ Route::middleware('auth:sanctum')
         |--------------------------------------------------------------------------
         */
 
+        /*
+        |--------------------------------------------------------------------------
+        | Get Settings
+        |--------------------------------------------------------------------------
+        */
+
         Route::get('/settings', [
             AdminSettingsController::class,
             'index'
         ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Update Settings
+        |--------------------------------------------------------------------------
+        */
 
         Route::put('/settings', [
             AdminSettingsController::class,

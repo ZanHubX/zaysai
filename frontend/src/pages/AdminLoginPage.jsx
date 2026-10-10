@@ -8,13 +8,19 @@ function AdminLoginPage() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
     const existingToken = localStorage.getItem("admin_token");
 
     if (existingToken) {
-        return <Navigate to="/admin/dashboard" replace />;
+        return (
+            <Navigate
+                to="/admin/dashboard"
+                replace
+            />
+        );
     }
 
     const handleSubmit = async (e) => {
@@ -24,10 +30,13 @@ function AdminLoginPage() {
         setError("");
 
         try {
-            const response = await api.post("/admin/login", {
-                email,
-                password,
-            });
+            const response = await api.post(
+                "/admin/login",
+                {
+                    email,
+                    password,
+                }
+            );
 
             localStorage.setItem(
                 "admin_token",
@@ -43,7 +52,10 @@ function AdminLoginPage() {
                 replace: true,
             });
         } catch (err) {
-            console.error(err);
+            console.error(
+                "Admin login error:",
+                err
+            );
 
             const validationMessage =
                 err.response?.data?.errors?.email?.[0];
@@ -60,35 +72,62 @@ function AdminLoginPage() {
 
     return (
         <div className="admin-login-page">
+
+            {/* =================================================
+                                LOGIN CARD
+            ================================================= */}
+
             <div className="admin-login-card">
+
+                {/* =================================================
+                                HEADER
+                ================================================= */}
+
                 <div className="admin-login-header">
+
                     <div className="admin-login-logo">
                         Z
                     </div>
 
-                    <h1>ZaySai Admin</h1>
+                    <h1>
+                        ZaySai Admin
+                    </h1>
 
                     <p>
                         Sign in to manage your platform
                     </p>
+
                 </div>
+
+                {/* =================================================
+                                LOGIN FORM
+                ================================================= */}
 
                 <form
                     className="admin-login-form"
                     onSubmit={handleSubmit}
                 >
+
+                    {/* Error */}
+
                     {error && (
                         <div className="admin-login-error">
                             {error}
                         </div>
                     )}
 
+                    {/* =================================================
+                                    EMAIL
+                    ================================================= */}
+
                     <div className="admin-input-group">
+
                         <label htmlFor="admin-email">
                             Email
                         </label>
 
                         <div className="admin-input-wrapper">
+
                             <Mail size={18} />
 
                             <input
@@ -97,19 +136,29 @@ function AdminLoginPage() {
                                 placeholder="admin@zaysai.com"
                                 value={email}
                                 onChange={(e) =>
-                                    setEmail(e.target.value)
+                                    setEmail(
+                                        e.target.value
+                                    )
                                 }
                                 required
                             />
+
                         </div>
+
                     </div>
 
+                    {/* =================================================
+                                    PASSWORD
+                    ================================================= */}
+
                     <div className="admin-input-group">
+
                         <label htmlFor="admin-password">
                             Password
                         </label>
 
                         <div className="admin-input-wrapper">
+
                             <Lock size={18} />
 
                             <input
@@ -118,12 +167,20 @@ function AdminLoginPage() {
                                 placeholder="Enter your password"
                                 value={password}
                                 onChange={(e) =>
-                                    setPassword(e.target.value)
+                                    setPassword(
+                                        e.target.value
+                                    )
                                 }
                                 required
                             />
+
                         </div>
+
                     </div>
+
+                    {/* =================================================
+                                    LOGIN BUTTON
+                    ================================================= */}
 
                     <button
                         type="submit"
@@ -136,14 +193,18 @@ function AdminLoginPage() {
                                     size={18}
                                     className="admin-loading-icon"
                                 />
+
                                 Signing in...
                             </>
                         ) : (
                             "Sign In"
                         )}
                     </button>
+
                 </form>
+
             </div>
+
         </div>
     );
 }

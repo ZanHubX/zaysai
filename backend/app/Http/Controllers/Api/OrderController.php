@@ -313,21 +313,27 @@ class OrderController extends Controller
 
                 /*
                 |--------------------------------------------------------------------------
-                | Contact Account
+                | Store Contact Admin Snapshot
                 |--------------------------------------------------------------------------
+                |
+                | Contact information belongs to the seller/store.
+                | We snapshot it into the order so the tracking page can
+                | show the correct seller contact without using the
+                | platform admin account.
+                |
                 */
 
                 'contact_platform' =>
-                $validated['contact_platform'] ?? null,
+                $store->contact_platform,
 
                 'contact_name' =>
-                $validated['contact_name'] ?? null,
+                $store->contact_name,
 
                 'contact_username' =>
-                $validated['contact_username'] ?? null,
+                $store->contact_username,
 
                 'contact_link' =>
-                $validated['contact_link'] ?? null,
+                $store->contact_link,
 
                 'notes' =>
                 $validated['notes'] ?? null,
@@ -487,6 +493,18 @@ class OrderController extends Controller
 
                     'slug' =>
                     $order->store?->slug,
+
+                    'contact_platform' =>
+                    $order->contact_platform,
+
+                    'contact_name' =>
+                    $order->contact_name,
+
+                    'contact_username' =>
+                    $order->contact_username,
+
+                    'contact_link' =>
+                    $order->contact_link,
                 ],
 
                 'customer_name' =>

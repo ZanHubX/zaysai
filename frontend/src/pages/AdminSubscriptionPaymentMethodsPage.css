@@ -1,0 +1,1815 @@
+/* =========================================================
+   ADMIN SUBSCRIPTION PAYMENT METHODS
+========================================================= */
+
+.admin-payment-methods-page {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 30px 32px 48px;
+
+    color: #111827;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.admin-payment-methods-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 24px;
+    margin-bottom: 26px;
+}
+
+.admin-payment-methods-title {
+    min-width: 0;
+}
+
+.admin-payment-methods-eyebrow {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #9ca3af;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+}
+
+.admin-payment-methods-title h1 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 27px;
+    line-height: 1.2;
+
+    font-weight: 750;
+
+    letter-spacing: -0.025em;
+}
+
+.admin-payment-methods-title p {
+    max-width: 650px;
+
+    margin: 8px 0 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.admin-payment-methods-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.admin-payment-refresh-btn,
+.admin-payment-primary-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    min-height: 40px;
+
+    padding: 0 15px;
+
+    border-radius: 9px;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease,
+        box-shadow 0.15s ease,
+        transform 0.15s ease;
+}
+
+.admin-payment-refresh-btn {
+    border: 1px solid #e5e7eb;
+
+    background: #ffffff;
+
+    color: #374151;
+}
+
+.admin-payment-refresh-btn:hover:not(:disabled) {
+    border-color: #d1d5db;
+
+    background: #f9fafb;
+
+    color: #111827;
+}
+
+.admin-payment-primary-btn {
+    border: 1px solid #111827;
+
+    background: #111827;
+
+    color: #ffffff;
+}
+
+.admin-payment-primary-btn:hover:not(:disabled) {
+    background: #1f2937;
+
+    border-color: #1f2937;
+
+    box-shadow:
+        0 5px 14px rgba(17, 24, 39, 0.15);
+
+    transform: translateY(-1px);
+}
+
+.admin-payment-refresh-btn:disabled,
+.admin-payment-primary-btn:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   ALERTS
+========================================================= */
+
+.admin-payment-alert {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    width: 100%;
+
+    margin-bottom: 18px;
+
+    padding: 12px 14px;
+
+    border-radius: 10px;
+
+    box-sizing: border-box;
+
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.admin-payment-alert.error {
+    border: 1px solid #fecaca;
+
+    background: #fef2f2;
+
+    color: #b91c1c;
+}
+
+.admin-payment-alert.success {
+    border: 1px solid #bbf7d0;
+
+    background: #f0fdf4;
+
+    color: #15803d;
+}
+
+.admin-payment-alert-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+}
+
+.admin-payment-alert > span {
+    flex: 1;
+}
+
+.admin-payment-alert > button {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    height: 28px;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: 6px;
+
+    background: transparent;
+
+    color: currentColor;
+
+    cursor: pointer;
+}
+
+.admin-payment-alert > button:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.admin-payment-method-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+}
+
+.admin-payment-stat-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    min-height: 82px;
+
+    padding: 16px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 13px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.03);
+}
+
+.admin-payment-stat-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background: #f3f4f6;
+
+    color: #374151;
+}
+
+.admin-payment-stat-icon.active {
+    background: #ecfdf5;
+
+    color: #15803d;
+}
+
+.admin-payment-stat-icon.inactive {
+    background: #f3f4f6;
+
+    color: #6b7280;
+}
+
+.admin-payment-stat-card span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #6b7280;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.admin-payment-stat-card strong {
+    display: block;
+
+    color: #111827;
+
+    font-size: 21px;
+    line-height: 1;
+
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.admin-payment-methods-toolbar {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    margin-bottom: 16px;
+}
+
+.admin-payment-search {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    width: min(390px, 100%);
+
+    height: 40px;
+
+    padding: 0 12px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #9ca3af;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.admin-payment-search:focus-within {
+    border-color: #c7cdd6;
+
+    box-shadow:
+        0 0 0 3px rgba(17, 24, 39, 0.05);
+}
+
+.admin-payment-search input {
+    flex: 1;
+
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 0;
+
+    border: 0;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #111827;
+
+    font-family: inherit;
+
+    font-size: 12px;
+}
+
+.admin-payment-search input::placeholder {
+    color: #9ca3af;
+}
+
+.admin-payment-search > button {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 24px;
+    height: 24px;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: 5px;
+
+    background: transparent;
+
+    color: #9ca3af;
+
+    cursor: pointer;
+}
+
+.admin-payment-search > button:hover {
+    background: #f3f4f6;
+
+    color: #374151;
+}
+
+.admin-payment-result-count {
+    color: #9ca3af;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   PAYMENT METHOD GRID
+========================================================= */
+
+.admin-payment-method-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+}
+
+
+/* =========================================================
+   PAYMENT METHOD CARD
+========================================================= */
+
+.admin-payment-method-card {
+    min-width: 0;
+
+    padding: 19px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.03);
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        transform 0.15s ease;
+}
+
+.admin-payment-method-card:hover {
+    border-color: #d7dce3;
+
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, 0.06);
+
+    transform: translateY(-1px);
+}
+
+.admin-payment-method-card.inactive {
+    opacity: 0.78;
+}
+
+
+/* =========================================================
+   CARD TOP
+========================================================= */
+
+.admin-payment-method-card-top {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 17px;
+}
+
+.admin-payment-method-brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    min-width: 0;
+}
+
+.admin-payment-method-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    background: #f9fafb;
+
+    color: #374151;
+}
+
+.admin-payment-method-brand h3 {
+    overflow: hidden;
+
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 14px;
+    line-height: 1.3;
+
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-payment-method-brand span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.admin-payment-status {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    flex-shrink: 0;
+
+    padding: 5px 8px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.admin-payment-status.active {
+    background: #ecfdf5;
+
+    color: #15803d;
+}
+
+.admin-payment-status.inactive {
+    background: #f3f4f6;
+
+    color: #6b7280;
+}
+
+.admin-payment-status-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+}
+
+
+/* =========================================================
+   ACCOUNT BOX
+========================================================= */
+
+.admin-payment-account-box {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    padding: 14px;
+
+    border: 1px solid #f0f1f3;
+
+    border-radius: 10px;
+
+    background: #fafafa;
+}
+
+.admin-payment-account-row {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.admin-payment-account-row > span {
+    flex-shrink: 0;
+
+    color: #9ca3af;
+
+    font-size: 10px;
+    font-weight: 650;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.04em;
+}
+
+.admin-payment-account-row strong {
+    min-width: 0;
+
+    color: #374151;
+
+    font-size: 12px;
+    font-weight: 650;
+
+    text-align: right;
+
+    overflow-wrap: anywhere;
+}
+
+.admin-payment-account-number {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 7px;
+
+    min-width: 0;
+}
+
+.admin-payment-account-number strong {
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   ICON BUTTON
+========================================================= */
+
+.admin-icon-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    height: 28px;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #6b7280;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.admin-icon-button:hover {
+    border-color: #d1d5db;
+
+    background: #f9fafb;
+
+    color: #111827;
+}
+
+
+/* =========================================================
+   INSTRUCTIONS
+========================================================= */
+
+.admin-payment-instructions {
+    margin-top: 14px;
+}
+
+.admin-payment-instructions > span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #9ca3af;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.05em;
+}
+
+.admin-payment-instructions p {
+    display: -webkit-box;
+
+    overflow: hidden;
+
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 11px;
+    line-height: 1.55;
+
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+
+/* =========================================================
+   QR ROW
+========================================================= */
+
+.admin-payment-qr-row {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-top: 16px;
+
+    padding-top: 14px;
+
+    border-top: 1px solid #f0f1f3;
+}
+
+.admin-payment-qr-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #6b7280;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.admin-view-qr-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    min-height: 31px;
+
+    padding: 0 10px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #374151;
+
+    font-family: inherit;
+
+    font-size: 10px;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.admin-view-qr-btn:hover {
+    border-color: #d1d5db;
+
+    background: #f9fafb;
+}
+
+.admin-no-qr {
+    color: #9ca3af;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
+.admin-payment-method-card-footer {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 7px;
+
+    margin-top: 16px;
+}
+
+.admin-card-action {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    min-width: 0;
+
+    min-height: 34px;
+
+    padding: 0 8px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #4b5563;
+
+    font-family: inherit;
+
+    font-size: 10px;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.admin-card-action:hover {
+    border-color: #d1d5db;
+
+    background: #f9fafb;
+
+    color: #111827;
+}
+
+.admin-card-action.danger {
+    color: #b91c1c;
+}
+
+.admin-card-action.danger:hover {
+    border-color: #fecaca;
+
+    background: #fef2f2;
+
+    color: #991b1b;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.admin-payment-empty {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    min-height: 300px;
+
+    padding: 35px;
+
+    border: 1px dashed #d1d5db;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    text-align: center;
+}
+
+.admin-payment-empty-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 58px;
+    height: 58px;
+
+    margin-bottom: 15px;
+
+    border-radius: 14px;
+
+    background: #f3f4f6;
+
+    color: #6b7280;
+}
+
+.admin-payment-empty h3 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 15px;
+}
+
+.admin-payment-empty p {
+    max-width: 420px;
+
+    margin: 7px 0 18px;
+
+    color: #9ca3af;
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.admin-payment-methods-loading {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    min-height: 450px;
+
+    gap: 12px;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   MODAL BACKDROP
+========================================================= */
+
+.admin-payment-modal-backdrop {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    box-sizing: border-box;
+
+    background:
+        rgba(15, 23, 42, 0.45);
+
+    backdrop-filter: blur(4px);
+
+    overflow-y: auto;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.admin-payment-modal {
+    width: min(640px, 100%);
+
+    max-height: calc(100vh - 48px);
+
+    overflow-y: auto;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 25px 70px rgba(15, 23, 42, 0.2);
+}
+
+.admin-payment-modal-header {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 22px 23px 18px;
+
+    border-bottom: 1px solid #f0f1f3;
+}
+
+.admin-payment-modal-header > div {
+    min-width: 0;
+}
+
+.admin-payment-modal-header span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #9ca3af;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 0.12em;
+}
+
+.admin-payment-modal-header h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 18px;
+    line-height: 1.3;
+
+    font-weight: 750;
+}
+
+.admin-payment-modal-header p {
+    margin: 6px 0 0;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.admin-modal-close {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #6b7280;
+
+    cursor: pointer;
+}
+
+.admin-modal-close:hover {
+    background: #f9fafb;
+
+    color: #111827;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.admin-payment-form {
+    padding: 21px 23px 23px;
+}
+
+.admin-form-field {
+    margin-bottom: 16px;
+}
+
+.admin-form-field > label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #374151;
+
+    font-size: 11px;
+    font-weight: 650;
+}
+
+.admin-form-field > label span {
+    margin-left: 3px;
+
+    color: #dc2626;
+}
+
+.admin-form-field input,
+.admin-form-field select,
+.admin-form-field textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.admin-form-field input,
+.admin-form-field select {
+    height: 40px;
+
+    padding: 0 11px;
+}
+
+.admin-form-field textarea {
+    min-height: 100px;
+
+    padding: 10px 11px;
+
+    resize: vertical;
+
+    line-height: 1.5;
+}
+
+.admin-form-field input:focus,
+.admin-form-field select:focus,
+.admin-form-field textarea:focus {
+    border-color: #c7cdd6;
+
+    box-shadow:
+        0 0 0 3px rgba(17, 24, 39, 0.05);
+}
+
+.admin-form-field input::placeholder,
+.admin-form-field textarea::placeholder {
+    color: #b0b6bf;
+}
+
+.admin-form-field input:disabled,
+.admin-form-field select:disabled,
+.admin-form-field textarea:disabled {
+    background: #f9fafb;
+
+    cursor: not-allowed;
+}
+
+.admin-form-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+
+/* =========================================================
+   QR UPLOAD
+========================================================= */
+
+.admin-qr-upload {
+    position: relative;
+
+    display: block;
+
+    min-height: 78px;
+
+    border: 1px dashed #d1d5db;
+
+    border-radius: 10px;
+
+    background: #fafafa;
+
+    cursor: pointer;
+
+    overflow: hidden;
+}
+
+.admin-qr-upload:hover {
+    border-color: #9ca3af;
+
+    background: #f9fafb;
+}
+
+.admin-qr-upload input {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+
+    cursor: pointer;
+}
+
+.admin-qr-upload-content {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    min-height: 78px;
+
+    padding: 13px;
+
+    box-sizing: border-box;
+
+    pointer-events: none;
+}
+
+.admin-qr-upload-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    color: #6b7280;
+}
+
+.admin-qr-upload-content strong {
+    display: block;
+
+    color: #374151;
+
+    font-size: 11px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.admin-qr-upload-content span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #9ca3af;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   TOGGLE
+========================================================= */
+
+.admin-checkbox-field {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.admin-toggle {
+    display: inline-flex !important;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin: 0 !important;
+
+    cursor: pointer;
+}
+
+.admin-toggle input {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+.admin-toggle-track {
+    position: relative;
+
+    display: block;
+
+    width: 38px;
+    height: 22px;
+
+    flex-shrink: 0;
+
+    border-radius: 999px;
+
+    background: #d1d5db;
+
+    transition: background 0.15s ease;
+}
+
+.admin-toggle-thumb {
+    position: absolute;
+
+    top: 3px;
+    left: 3px;
+
+    width: 16px;
+    height: 16px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.18);
+
+    transition: transform 0.15s ease;
+}
+
+.admin-toggle input:checked + .admin-toggle-track {
+    background: #111827;
+}
+
+.admin-toggle input:checked + .admin-toggle-track .admin-toggle-thumb {
+    transform: translateX(16px);
+}
+
+.admin-toggle-label {
+    color: #4b5563;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   MODAL FOOTER
+========================================================= */
+
+.admin-payment-modal-footer {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 9px;
+
+    padding-top: 7px;
+}
+
+.admin-modal-cancel-btn,
+.admin-modal-save-btn,
+.admin-delete-confirm-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 38px;
+
+    padding: 0 14px;
+
+    border-radius: 8px;
+
+    font-family: inherit;
+
+    font-size: 11px;
+    font-weight: 650;
+
+    cursor: pointer;
+}
+
+.admin-modal-cancel-btn {
+    border: 1px solid #e5e7eb;
+
+    background: #ffffff;
+
+    color: #4b5563;
+}
+
+.admin-modal-cancel-btn:hover {
+    background: #f9fafb;
+
+    color: #111827;
+}
+
+.admin-modal-save-btn {
+    border: 1px solid #111827;
+
+    background: #111827;
+
+    color: #ffffff;
+}
+
+.admin-modal-save-btn:hover:not(:disabled) {
+    background: #1f2937;
+}
+
+.admin-modal-save-btn:disabled,
+.admin-modal-cancel-btn:disabled,
+.admin-delete-confirm-btn:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   DELETE MODAL
+========================================================= */
+
+.admin-delete-modal {
+    width: min(410px, 100%);
+
+    padding: 25px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 15px;
+
+    background: #ffffff;
+
+    text-align: center;
+
+    box-shadow:
+        0 25px 70px rgba(15, 23, 42, 0.2);
+}
+
+.admin-delete-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 50px;
+    height: 50px;
+
+    margin: 0 auto 15px;
+
+    border-radius: 12px;
+
+    background: #fef2f2;
+
+    color: #dc2626;
+}
+
+.admin-delete-modal h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 17px;
+}
+
+.admin-delete-modal p {
+    margin: 8px auto 20px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+.admin-delete-modal p strong {
+    color: #374151;
+}
+
+.admin-delete-actions {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 8px;
+}
+
+.admin-delete-confirm-btn {
+    border: 1px solid #dc2626;
+
+    background: #dc2626;
+
+    color: #ffffff;
+}
+
+.admin-delete-confirm-btn:hover:not(:disabled) {
+    background: #b91c1c;
+
+    border-color: #b91c1c;
+}
+
+
+/* =========================================================
+   QR MODAL
+========================================================= */
+
+.admin-qr-modal {
+    width: min(480px, 100%);
+
+    max-height: calc(100vh - 48px);
+
+    overflow: hidden;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 16px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 25px 70px rgba(15, 23, 42, 0.2);
+}
+
+.admin-qr-preview {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 350px;
+
+    padding: 25px;
+
+    background: #f8fafc;
+}
+
+.admin-qr-preview img {
+    display: block;
+
+    width: min(320px, 100%);
+
+    max-height: 55vh;
+
+    object-fit: contain;
+
+    padding: 10px;
+
+    box-sizing: border-box;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+}
+
+.admin-qr-loading,
+.admin-qr-not-found {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    color: #9ca3af;
+
+    font-size: 12px;
+}
+
+.admin-qr-not-found svg {
+    color: #c4c9d0;
+}
+
+.admin-qr-modal-footer {
+    display: flex;
+
+    justify-content: flex-end;
+
+    padding: 14px 20px;
+
+    border-top: 1px solid #f0f1f3;
+}
+
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+.spin {
+    animation: adminPaymentSpin 0.9s linear infinite;
+}
+
+@keyframes adminPaymentSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .admin-payment-method-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 800px) {
+
+    .admin-payment-methods-page {
+        padding: 22px 20px 40px;
+    }
+
+    .admin-payment-methods-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .admin-payment-methods-header-actions {
+        width: 100%;
+    }
+
+    .admin-payment-refresh-btn,
+    .admin-payment-primary-btn {
+        flex: 1;
+    }
+
+    .admin-payment-method-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-payment-method-stats {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .admin-payment-methods-page {
+        padding: 18px 14px 32px;
+    }
+
+    .admin-payment-methods-title h1 {
+        font-size: 22px;
+    }
+
+    .admin-payment-methods-header-actions {
+        flex-direction: column;
+    }
+
+    .admin-payment-refresh-btn,
+    .admin-payment-primary-btn {
+        width: 100%;
+    }
+
+    .admin-payment-method-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-payment-methods-toolbar {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+    .admin-payment-search {
+        width: 100%;
+    }
+
+    .admin-payment-method-card {
+        padding: 15px;
+    }
+
+    .admin-payment-method-card-top {
+        align-items: flex-start;
+    }
+
+    .admin-payment-method-card-footer {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-payment-modal-backdrop {
+        align-items: flex-start;
+
+        padding: 12px;
+    }
+
+    .admin-payment-modal,
+    .admin-qr-modal,
+    .admin-delete-modal {
+        margin-top: 10px;
+
+        max-height: calc(100vh - 24px);
+    }
+
+    .admin-payment-modal-header {
+        padding: 18px;
+    }
+
+    .admin-payment-form {
+        padding: 18px;
+    }
+
+    .admin-payment-modal-footer {
+        flex-direction: column-reverse;
+    }
+
+    .admin-modal-cancel-btn,
+    .admin-modal-save-btn {
+        width: 100%;
+    }
+
+    .admin-payment-account-row {
+        flex-direction: column;
+
+        gap: 4px;
+    }
+
+    .admin-payment-account-row strong {
+        text-align: left;
+    }
+
+    .admin-payment-account-number {
+        justify-content: flex-start;
+    }
+}

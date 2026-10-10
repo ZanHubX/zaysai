@@ -15,6 +15,10 @@ class Store extends Model
         'logo',
         'description',
         'phone',
+        'contact_platform',
+        'contact_name',
+        'contact_username',
+        'contact_link',
         'status',
     ];
 

@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>ZaySai — Maintenance</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 24px;
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background:
+                linear-gradient(135deg,
+                    #f8fafc 0%,
+                    #eef2ff 100%);
+
+            color: #111827;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Card
+        |--------------------------------------------------------------------------
+        */
+
+        .maintenance-card {
+            width: 100%;
+            max-width: 560px;
+
+            padding: 48px 40px;
+
+            text-align: center;
+
+            background: #ffffff;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 24px;
+
+            box-shadow:
+                0 20px 60px rgba(15, 23, 42, 0.08);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Logo
+        |--------------------------------------------------------------------------
+        */
+
+        .logo {
+            width: 72px;
+            height: 72px;
+
+            margin: 0 auto 24px;
+
+            object-fit: contain;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Maintenance Icon
+        |--------------------------------------------------------------------------
+        */
+
+        .icon {
+            width: 64px;
+            height: 64px;
+
+            margin: 0 auto 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #f3f4f6;
+
+            font-size: 30px;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Badge
+        |--------------------------------------------------------------------------
+        */
+
+        .badge {
+            display: inline-flex;
+
+            padding: 7px 12px;
+
+            margin-bottom: 18px;
+
+            border-radius: 999px;
+
+            background: #f3f4f6;
+
+            color: #6b7280;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.08em;
+
+            text-transform: uppercase;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Heading
+        |--------------------------------------------------------------------------
+        */
+
+        h1 {
+            margin-bottom: 14px;
+
+            font-size: 32px;
+
+            line-height: 1.2;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Description
+        |--------------------------------------------------------------------------
+        */
+
+        p {
+            max-width: 420px;
+
+            margin: 0 auto;
+
+            color: #6b7280;
+
+            font-size: 16px;
+
+            line-height: 1.7;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Status
+        |--------------------------------------------------------------------------
+        */
+
+        .status {
+            margin-top: 28px;
+
+            padding: 14px 16px;
+
+            border-radius: 12px;
+
+            background: #f9fafb;
+
+            color: #6b7280;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Ready
+        |--------------------------------------------------------------------------
+        */
+
+        .status.ready {
+            background: #f0fdf4;
+
+            color: #15803d;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Error
+        |--------------------------------------------------------------------------
+        */
+
+        .status.error {
+            background: #fff7ed;
+
+            color: #c2410c;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Button
+        |--------------------------------------------------------------------------
+        */
+
+        .button {
+            display: inline-block;
+
+            margin-top: 28px;
+
+            padding: 12px 20px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #111827;
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                opacity 0.2s ease;
+        }
+
+
+        .button:hover {
+            transform: translateY(-1px);
+
+            opacity: 0.9;
+        }
+
+
+        .button:disabled {
+            cursor: not-allowed;
+
+            opacity: 0.6;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Mobile
+        |--------------------------------------------------------------------------
+        */
+
+        @media (max-width: 520px) {
+
+            .maintenance-card {
+                padding: 36px 24px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            p {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <main class="maintenance-card">
+
+        <!-- ZaySai Logo -->
+
+        <img src="/zaysai-logo.png" alt="ZaySai" class="logo" />
+
+
+        <!-- Maintenance Icon -->
+
+        <div class="icon">
+            🔧
+        </div>
+
+
+        <!-- Badge -->
+
+        <div class="badge">
+            Maintenance Mode
+        </div>
+
+
+        <!-- Heading -->
+
+        <h1>
+            We'll be back soon.
+        </h1>
+
+
+        <!-- Description -->
+
+        <p>
+            ZaySai is temporarily unavailable while
+            we perform maintenance and improvements.
+            Please check back shortly.
+        </p>
+
+
+        <!-- Dynamic Status -->
+
+        <div id="maintenance-status" class="status">
+            We're checking the platform status...
+        </div>
+
+
+        <!-- Manual Check -->
+
+        <button id="check-button" type="button" class="button">
+            Check Again
+        </button>
+
+    </main>
+
+
+    <script>
+
+        /*
+        |--------------------------------------------------------------------------
+        | Maintenance Status Endpoint
+        |--------------------------------------------------------------------------
+        */
+
+        const STATUS_URL =
+            "http://127.0.0.1:8000/api/maintenance-status";
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Automatic Check Interval
+        |--------------------------------------------------------------------------
+        |
+        | Check every 5 seconds.
+        |
+        */
+
+        const CHECK_INTERVAL = 5000;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DOM Elements
+        |--------------------------------------------------------------------------
+        */
+
+        const statusElement =
+            document.getElementById(
+                "maintenance-status"
+            );
+
+
+        const checkButton =
+            document.getElementById(
+                "check-button"
+            );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Redirect Lock
+        |--------------------------------------------------------------------------
+        |
+        | Prevent multiple redirects when the
+        | automatic checker and manual button
+        | run at the same time.
+        |
+        */
+
+        let redirecting = false;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Update Status Message
+        |--------------------------------------------------------------------------
+        */
+
+        function setStatus(
+            message,
+            type = ""
+        ) {
+
+            statusElement.textContent =
+                message;
+
+
+            statusElement.className =
+                `status ${type}`;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Get Saved Return URL
+        |--------------------------------------------------------------------------
+        */
+
+        function getSavedReturnUrl() {
+
+            const savedUrl =
+                sessionStorage.getItem(
+                    "zaysai_return_url"
+                );
+
+
+            if (!savedUrl) {
+                return null;
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Never return to maintenance.html
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                savedUrl.includes(
+                    "/maintenance.html"
+                )
+            ) {
+
+                sessionStorage.removeItem(
+                    "zaysai_return_url"
+                );
+
+                return null;
+            }
+
+
+            return savedUrl;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Return To ZaySai
+        |--------------------------------------------------------------------------
+        */
+
+        function returnToZaySai() {
+
+            /*
+            |--------------------------------------------------------------------------
+            | 1. Try Saved URL
+            |--------------------------------------------------------------------------
+            */
+
+            const savedUrl =
+                getSavedReturnUrl();
+
+
+            if (savedUrl) {
+
+                sessionStorage.removeItem(
+                    "zaysai_return_url"
+                );
+
+
+                window.location.replace(
+                    savedUrl
+                );
+
+                return;
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | 2. Browser History
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                window.history.length > 1
+            ) {
+
+                window.history.back();
+
+                return;
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | 3. Final Fallback
+            |--------------------------------------------------------------------------
+            |
+            | Reload current page rather than
+            | sending the user to a blank "/".
+            |
+            */
+
+            window.location.reload();
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Check Maintenance Status
+        |--------------------------------------------------------------------------
+        */
+
+        async function checkMaintenanceStatus() {
+
+            /*
+            |--------------------------------------------------------------------------
+            | Stop duplicate checks during redirect
+            |--------------------------------------------------------------------------
+            */
+
+            if (redirecting) {
+                return;
+            }
+
+
+            try {
+
+                checkButton.disabled =
+                    true;
+
+
+                setStatus(
+                    "Checking if ZaySai is back online..."
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Request
+                |--------------------------------------------------------------------------
+                |
+                | Cache busting prevents the browser
+                | from returning an old response.
+                |
+                */
+
+                const response =
+                    await fetch(
+                        `${STATUS_URL}?t=${Date.now()}`,
+                        {
+                            method: "GET",
+
+                            cache: "no-store",
+
+                            headers: {
+                                Accept:
+                                    "application/json",
+                            },
+                        }
+                    );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | HTTP Error
+                |--------------------------------------------------------------------------
+                */
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Status request failed: ${response.status}`
+                    );
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Parse JSON
+                |--------------------------------------------------------------------------
+                */
+
+                const data =
+                    await response.json();
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Maintenance OFF
+                |--------------------------------------------------------------------------
+                */
+
+                if (
+                    data.maintenance === false
+                ) {
+
+                    redirecting = true;
+
+
+                    setStatus(
+                        "ZaySai is back online. Redirecting...",
+                        "ready"
+                    );
+
+
+                    checkButton.disabled =
+                        true;
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Small delay so user can see
+                    | the success message.
+                    |--------------------------------------------------------------------------
+                    */
+
+                    setTimeout(
+                        () => {
+
+                            returnToZaySai();
+
+                        },
+                        800
+                    );
+
+
+                    return;
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Maintenance Still ON
+                |--------------------------------------------------------------------------
+                */
+
+                setStatus(
+                    "ZaySai is still under maintenance. We'll check again shortly."
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Maintenance check failed:",
+                    error
+                );
+
+
+                setStatus(
+                    "We're still checking the platform. Please wait...",
+                    "error"
+                );
+
+            } finally {
+
+                if (!redirecting) {
+
+                    checkButton.disabled =
+                        false;
+                }
+            }
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Manual Check Button
+        |--------------------------------------------------------------------------
+        */
+
+        checkButton.addEventListener(
+            "click",
+            checkMaintenanceStatus
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Automatic Check
+        |--------------------------------------------------------------------------
+        */
+
+        setInterval(
+            checkMaintenanceStatus,
+            CHECK_INTERVAL
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Initial Check
+        |--------------------------------------------------------------------------
+        */
+
+        checkMaintenanceStatus();
+
+    </script>
+
+</body>
+
+</html>

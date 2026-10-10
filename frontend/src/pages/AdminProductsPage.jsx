@@ -1,32 +1,38 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
     Package,
-    Store,
-    User,
+    Search,
+    RefreshCw,
+    Eye,
     LoaderCircle,
-    AlertCircle,
 } from "lucide-react";
 import api from "../services/api";
 
 function AdminProductsPage() {
+    const navigate = useNavigate();
+
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
     const [error, setError] = useState("");
+    const [search, setSearch] = useState("");
 
-    useEffect(() => {
-        fetchProducts();
-    }, []);
-
-    const fetchProducts = async () => {
+    const fetchProducts = async (isRefresh = false) => {
         try {
-            setLoading(true);
+            if (isRefresh) {
+                setRefreshing(true);
+            } else {
+                setLoading(true);
+            }
+
             setError("");
 
             const response = await api.get("/admin/products");
 
             setProducts(response.data.products || []);
         } catch (err) {
-            console.error(err);
+            console.error("Admin products error:", err);
 
             setError(
                 err.response?.data?.message ||
@@ -34,15 +40,40 @@ function AdminProductsPage() {
             );
         } finally {
             setLoading(false);
+            setRefreshing(false);
         }
     };
 
-    const formatMoney = (value) => {
-        return `${Number(value || 0).toLocaleString()} MMK`;
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
+    const filteredProducts = products.filter((product) => {
+        const keyword = search.toLowerCase().trim();
+
+        if (!keyword) {
+            return true;
+        }
+
+        return (
+            product.name?.toLowerCase().includes(keyword) ||
+            product.slug?.toLowerCase().includes(keyword) ||
+            product.store?.name?.toLowerCase().includes(keyword) ||
+            product.seller?.name?.toLowerCase().includes(keyword) ||
+            product.seller?.email?.toLowerCase().includes(keyword)
+        );
+    });
+
+    const formatPrice = (price, currency = "MMK") => {
+        const number = Number(price || 0);
+
+        return `${number.toLocaleString()} ${currency}`;
     };
 
     const formatDate = (date) => {
-        if (!date) return "-";
+        if (!date) {
+            return "-";
+        }
 
         return new Date(date).toLocaleDateString("en-GB", {
             day: "2-digit",
@@ -51,228 +82,311 @@ function AdminProductsPage() {
         });
     };
 
-    if (loading) {
-        return (
-            <div className="admin-dashboard-loading">
-                <LoaderCircle
-                    size={32}
-                    className="admin-loading-icon"
-                />
+    const getStatusClass = (status) => {
+        switch (status) {
+            case "active":
+                return "admin-status-badge active";
 
-                <p>Loading products...</p>
-            </div>
-        );
-    }
+            case "inactive":
+                return "admin-status-badge inactive";
 
-    if (error) {
-        return (
-            <div className="admin-dashboard-error">
-                <AlertCircle size={20} />
-                <span>{error}</span>
-            </div>
-        );
-    }
+            case "out_of_stock":
+                return "admin-status-badge warning";
+
+            default:
+                return "admin-status-badge";
+        }
+    };
+
+    const handleProductClick = (productId) => {
+        navigate(`/admin/products/${productId}`);
+    };
 
     return (
-        <div className="admin-dashboard">
-
+        <div className="admin-page">
             {/* Header */}
-            <div className="admin-dashboard-header">
+            <div className="admin-page-header">
                 <div>
                     <h1>Products</h1>
-
                     <p>
-                        Manage products across the ZaySai platform
+                        Manage and monitor all products across ZaySai
+                        stores.
                     </p>
                 </div>
 
-                <div className="admin-page-count">
-                    <Package size={17} />
+                <button
+                    type="button"
+                    className="admin-secondary-button"
+                    onClick={() => fetchProducts(true)}
+                    disabled={refreshing}
+                >
+                    {refreshing ? (
+                        <LoaderCircle
+                            size={17}
+                            className="admin-loading-icon"
+                        />
+                    ) : (
+                        <RefreshCw size={17} />
+                    )}
 
-                    <span>
-                        {products.length} Products
-                    </span>
+                    {refreshing ? "Refreshing..." : "Refresh"}
+                </button>
+            </div>
+
+            {/* Stats */}
+            <div className="admin-stat-grid">
+                <div className="admin-stat-card">
+                    <div className="admin-stat-card-icon">
+                        <Package size={20} />
+                    </div>
+
+                    <div>
+                        <span>Total Products</span>
+                        <strong>{products.length}</strong>
+                    </div>
+                </div>
+
+                <div className="admin-stat-card">
+                    <div className="admin-stat-card-icon">
+                        <Package size={20} />
+                    </div>
+
+                    <div>
+                        <span>Active Products</span>
+                        <strong>
+                            {
+                                products.filter(
+                                    (product) =>
+                                        product.status === "active"
+                                ).length
+                            }
+                        </strong>
+                    </div>
+                </div>
+
+                <div className="admin-stat-card">
+                    <div className="admin-stat-card-icon">
+                        <Package size={20} />
+                    </div>
+
+                    <div>
+                        <span>Inactive Products</span>
+                        <strong>
+                            {
+                                products.filter(
+                                    (product) =>
+                                        product.status !== "active"
+                                ).length
+                            }
+                        </strong>
+                    </div>
                 </div>
             </div>
 
-            {/* Products Table */}
-            <div className="admin-section">
-
-                <div className="admin-section-header">
+            {/* Search */}
+            <div className="admin-card">
+                <div className="admin-card-header">
                     <div>
                         <h2>All Products</h2>
-
                         <p>
-                            Products from all sellers and stores
+                            {filteredProducts.length} product
+                            {filteredProducts.length !== 1
+                                ? "s"
+                                : ""}
                         </p>
                     </div>
                 </div>
 
-                <div className="admin-table-wrapper">
-                    <table className="admin-table">
+                <div className="admin-product-search">
+                    <Search size={18} />
 
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Store</th>
-                                <th>Seller</th>
-                                <th>Price</th>
-                                <th>Stock</th>
-                                <th>Status</th>
-                                <th>Created</th>
-                            </tr>
-                        </thead>
+                    <input
+                        type="text"
+                        placeholder="Search product, store, seller..."
+                        value={search}
+                        onChange={(e) =>
+                            setSearch(e.target.value)
+                        }
+                    />
+                </div>
 
-                        <tbody>
+                {/* Loading */}
+                {loading && (
+                    <div className="admin-page-loading">
+                        <LoaderCircle
+                            size={24}
+                            className="admin-loading-icon"
+                        />
+                        <span>Loading products...</span>
+                    </div>
+                )}
 
-                            {products.length === 0 ? (
-                                <tr>
-                                    <td
-                                        colSpan="7"
-                                        className="admin-empty"
-                                    >
-                                        No products found.
-                                    </td>
-                                </tr>
-                            ) : (
-                                products.map((product) => (
-                                    <tr key={product.id}>
+                {/* Error */}
+                {!loading && error && (
+                    <div className="admin-error-card">
+                        {error}
+                    </div>
+                )}
 
-                                        {/* Product */}
-                                        <td>
-                                            <div className="admin-product-cell">
+                {/* Empty */}
+                {!loading &&
+                    !error &&
+                    filteredProducts.length === 0 && (
+                        <div className="admin-empty-state">
+                            <Package size={34} />
 
-                                                <div className="admin-product-avatar">
-                                                    <Package
-                                                        size={17}
-                                                    />
-                                                </div>
+                            <h3>
+                                {search
+                                    ? "No products found"
+                                    : "No products yet"}
+                            </h3>
 
-                                                <div>
-                                                    <strong>
-                                                        {product.name}
-                                                    </strong>
+                            <p>
+                                {search
+                                    ? "Try a different search keyword."
+                                    : "There are no products available yet."}
+                            </p>
+                        </div>
+                    )}
 
-                                                    <span>
-                                                        /{product.slug}
-                                                    </span>
-                                                </div>
+                {/* Table */}
+                {!loading &&
+                    !error &&
+                    filteredProducts.length > 0 && (
+                        <div className="admin-table-wrapper">
+                            <table className="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Store</th>
+                                        <th>Seller</th>
+                                        <th>Price</th>
+                                        
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
 
-                                            </div>
-                                        </td>
+                                <tbody>
+                                    {filteredProducts.map(
+                                        (product) => (
+                                            <tr
+                                                key={product.id}
+                                                className="admin-product-row-clickable"
+                                                onClick={() =>
+                                                    handleProductClick(
+                                                        product.id
+                                                    )
+                                                }
+                                            >
+                                                <td>
+                                                    <div className="admin-product-name">
+                                                        <div className="admin-product-icon">
+                                                            <Package
+                                                                size={
+                                                                    17
+                                                                }
+                                                            />
+                                                        </div>
 
-                                        {/* Store */}
-                                        <td>
-                                            {product.store ? (
-                                                <div className="admin-store-cell">
+                                                        <div>
+                                                            <strong>
+                                                                {
+                                                                    product.name
+                                                                }
+                                                            </strong>
 
-                                                    <Store
-                                                        size={16}
-                                                    />
+                                                            <span>
+                                                                /
+                                                                {
+                                                                    product.slug
+                                                                }
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
 
-                                                    <div>
+                                                <td>
+                                                    <div className="admin-product-store">
                                                         <strong>
-                                                            {
-                                                                product
-                                                                    .store
-                                                                    .name
-                                                            }
+                                                            {product
+                                                                .store
+                                                                ?.name ||
+                                                                "-"}
                                                         </strong>
 
                                                         <span>
-                                                            /
-                                                            {
-                                                                product
-                                                                    .store
-                                                                    .slug
-                                                            }
+                                                            {product
+                                                                .store
+                                                                ?.slug ||
+                                                                "-"}
                                                         </span>
                                                     </div>
+                                                </td>
 
-                                                </div>
-                                            ) : (
-                                                "-"
-                                            )}
-                                        </td>
+                                                <td>
+                                                    <div className="admin-product-seller">
+                                                        <strong>
+                                                            {product
+                                                                .seller
+                                                                ?.name ||
+                                                                "-"}
+                                                        </strong>
 
-                                        {/* Seller */}
-                                        <td>
-                                            {product.seller ? (
-                                                <div className="admin-owner-cell">
+                                                        <span>
+                                                            {product
+                                                                .seller
+                                                                ?.email ||
+                                                                "-"}
+                                                        </span>
+                                                    </div>
+                                                </td>
 
-                                                    <div className="admin-inline-icon">
-                                                        <User
-                                                            size={14}
+                                                <td>
+                                                    <strong>
+                                                        {formatPrice(
+                                                            product.price
+                                                        )}
+                                                    </strong>
+                                                </td>
+
+                                                
+
+                                                <td>
+                                                    <span
+                                                        className={getStatusClass(
+                                                            product.status
+                                                        )}
+                                                    >
+                                                        {product.status ||
+                                                            "Unknown"}
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    {formatDate(
+                                                        product.created_at
+                                                    )}
+                                                </td>
+
+                                                <td>
+                                                    <div className="admin-product-view-icon">
+                                                        <Eye
+                                                            size={
+                                                                17
+                                                            }
                                                         />
                                                     </div>
-
-                                                    <div>
-                                                        <strong>
-                                                            {
-                                                                product
-                                                                    .seller
-                                                                    .name
-                                                            }
-                                                        </strong>
-
-                                                        <span>
-                                                            {
-                                                                product
-                                                                    .seller
-                                                                    .email
-                                                            }
-                                                        </span>
-                                                    </div>
-
-                                                </div>
-                                            ) : (
-                                                "-"
-                                            )}
-                                        </td>
-
-                                        {/* Price */}
-                                        <td>
-                                            <strong>
-                                                {formatMoney(
-                                                    product.price
-                                                )}
-                                            </strong>
-                                        </td>
-
-                                        {/* Stock */}
-                                        <td>
-                                            {product.stock ?? "-"}
-                                        </td>
-
-                                        {/* Status */}
-                                        <td>
-                                            <span
-                                                className={`admin-product-status ${product.status ||
-                                                    "active"
-                                                    }`}
-                                            >
-                                                {product.status ||
-                                                    "active"}
-                                            </span>
-                                        </td>
-
-                                        {/* Created */}
-                                        <td>
-                                            {formatDate(
-                                                product.created_at
-                                            )}
-                                        </td>
-
-                                    </tr>
-                                ))
-                            )}
-
-                        </tbody>
-
-                    </table>
-                </div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
             </div>
-
         </div>
     );
 }

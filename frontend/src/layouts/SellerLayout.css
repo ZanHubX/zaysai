@@ -89,8 +89,10 @@
 
 .seller-brand-text strong {
     color: #ffffff;
+
     font-size: 16px;
     font-weight: 700;
+
     line-height: 1.2;
     letter-spacing: -0.2px;
 }
@@ -99,6 +101,7 @@
     margin-top: 3px;
 
     color: #858594;
+
     font-size: 10px;
     font-weight: 500;
 }
@@ -121,12 +124,14 @@
 
     font-size: 9px;
     font-weight: 700;
+
     letter-spacing: 1.4px;
 }
 
 .seller-nav {
     display: flex;
     flex-direction: column;
+
     gap: 4px;
 }
 
@@ -140,6 +145,7 @@
 
     display: flex;
     align-items: center;
+
     gap: 12px;
 
     min-height: 44px;
@@ -194,7 +200,9 @@
     border-radius: 0 4px 4px 0;
 
     background: var(--primary);
-    box-shadow: 0 0 10px rgba(117, 87, 255, 0.55);
+
+    box-shadow:
+        0 0 10px rgba(117, 87, 255, 0.55);
 }
 
 .nav-item.active svg {
@@ -211,11 +219,13 @@
 
     display: flex;
     flex-direction: column;
+
     gap: 8px;
 
     padding-top: 18px;
 
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    border-top:
+        1px solid rgba(255, 255, 255, 0.07);
 }
 
 
@@ -226,6 +236,7 @@
 .sidebar-store-link {
     display: flex;
     align-items: center;
+
     gap: 11px;
 
     padding: 11px;
@@ -236,6 +247,7 @@
     border: 1px solid rgba(255, 255, 255, 0.055);
 
     color: white;
+
     text-decoration: none;
 
     transition: 0.18s ease;
@@ -243,7 +255,9 @@
 
 .sidebar-store-link:hover {
     background: rgba(255, 255, 255, 0.075);
-    border-color: rgba(255, 255, 255, 0.09);
+
+    border-color:
+        rgba(255, 255, 255, 0.09);
 }
 
 .sidebar-store-icon {
@@ -258,7 +272,9 @@
 
     border-radius: 9px;
 
-    background: rgba(117, 87, 255, 0.14);
+    background:
+        rgba(117, 87, 255, 0.14);
+
     color: #9a87ff;
 }
 
@@ -271,9 +287,12 @@
 
 .sidebar-store-text span {
     color: #737382;
+
     font-size: 9px;
     font-weight: 600;
+
     text-transform: uppercase;
+
     letter-spacing: 0.7px;
 }
 
@@ -281,6 +300,7 @@
     margin-top: 3px;
 
     color: #dedee6;
+
     font-size: 11px;
     font-weight: 500;
 }
@@ -295,6 +315,7 @@
 
     display: flex;
     align-items: center;
+
     gap: 12px;
 
     min-height: 42px;
@@ -313,11 +334,14 @@
 
     text-align: left;
 
+    cursor: pointer;
+
     transition: 0.18s ease;
 }
 
 .sidebar-logout:hover {
     background: rgba(220, 38, 38, 0.08);
+
     color: #f87171;
 }
 
@@ -328,6 +352,7 @@
 
 .seller-content {
     width: calc(100% - 250px);
+
     min-height: 100vh;
 
     margin-left: 250px;
@@ -337,7 +362,32 @@
 
 
 /* ========================================
-   Responsive
+   Mobile Header
+======================================== */
+
+.seller-mobile-header {
+    display: none;
+}
+
+.seller-menu-button {
+    display: none;
+}
+
+.seller-mobile-brand {
+    display: none;
+}
+
+.seller-sidebar-close {
+    display: none;
+}
+
+.seller-sidebar-overlay {
+    display: none;
+}
+
+
+/* ========================================
+   Tablet
 ======================================== */
 
 @media (max-width: 1100px) {
@@ -348,70 +398,330 @@
 
     .seller-content {
         width: calc(100% - 225px);
+
         margin-left: 225px;
+
         padding: 30px;
     }
 }
 
 
-@media (max-width: 800px) {
+/* ========================================
+   Mobile / Tablet Drawer
+======================================== */
 
-    .seller-sidebar {
-        position: relative;
+@media (max-width: 768px) {
 
-        width: 100%;
-        height: auto;
-
-        min-height: auto;
-
-        padding: 16px;
-
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    }
+    /* -------------------------------
+       Layout
+    ------------------------------- */
 
     .seller-layout {
         display: block;
+
+        min-height: 100vh;
     }
+
+
+    /* -------------------------------
+       Mobile Header
+    ------------------------------- */
+
+    .seller-mobile-header {
+        position: fixed;
+
+        top: 0;
+        left: 0;
+        right: 0;
+
+        height: 64px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 0 16px;
+
+        background:
+            rgba(21, 21, 29, 0.96);
+
+        border-bottom:
+            1px solid rgba(255, 255, 255, 0.07);
+
+        backdrop-filter: blur(12px);
+
+        z-index: 90;
+    }
+
+
+    .seller-menu-button {
+        width: 40px;
+        height: 40px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 0;
+
+        border: none;
+        border-radius: 10px;
+
+        background:
+            rgba(255, 255, 255, 0.06);
+
+        color: #ffffff;
+
+        cursor: pointer;
+    }
+
+    .seller-menu-button:active {
+        transform: scale(0.96);
+    }
+
+
+    .seller-mobile-brand {
+        display: flex;
+        align-items: center;
+
+        gap: 9px;
+
+        margin-left: 11px;
+    }
+
+
+    .seller-mobile-logo-wrap {
+        width: 34px;
+        height: 34px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 9px;
+
+        background:
+            rgba(255, 255, 255, 0.08);
+
+        border:
+            1px solid rgba(255, 255, 255, 0.08);
+
+        overflow: hidden;
+    }
+
+
+    .seller-mobile-logo {
+        width: 26px;
+        height: 26px;
+
+        object-fit: contain;
+    }
+
+
+    .seller-mobile-brand-text {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .seller-mobile-brand-text strong {
+        color: #ffffff;
+
+        font-size: 14px;
+        font-weight: 700;
+
+        line-height: 1.1;
+    }
+
+
+    .seller-mobile-brand-text span {
+        margin-top: 2px;
+
+        color: #858594;
+
+        font-size: 9px;
+        font-weight: 500;
+    }
+
+
+    /* -------------------------------
+       Sidebar Drawer
+    ------------------------------- */
+
+    .seller-sidebar {
+        position: fixed;
+
+        top: 0;
+        left: 0;
+
+        width: 280px;
+        height: 100vh;
+
+        padding: 22px 14px;
+
+        transform:
+            translateX(-100%);
+
+        transition:
+            transform 0.25s ease;
+
+        box-shadow:
+            12px 0 40px rgba(0, 0, 0, 0.30);
+
+        z-index: 200;
+
+        overflow-y: auto;
+    }
+
+
+    .seller-sidebar.mobile-open {
+        transform:
+            translateX(0);
+    }
+
+
+    /* -------------------------------
+       Close Button
+    ------------------------------- */
+
+    .seller-sidebar-close {
+        position: absolute;
+
+        top: 18px;
+        right: 14px;
+
+        width: 34px;
+        height: 34px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: none;
+        border-radius: 9px;
+
+        background:
+            rgba(255, 255, 255, 0.06);
+
+        color: #a9a9b7;
+
+        cursor: pointer;
+
+        z-index: 5;
+    }
+
+
+    .seller-sidebar-close:hover {
+        background:
+            rgba(255, 255, 255, 0.10);
+
+        color: #ffffff;
+    }
+
+
+    /* -------------------------------
+       Sidebar Brand
+    ------------------------------- */
+
+    .seller-brand {
+        padding-right: 45px;
+    }
+
+
+    /* -------------------------------
+       Overlay
+    ------------------------------- */
+
+    .seller-sidebar-overlay {
+        position: fixed;
+
+        inset: 0;
+
+        display: block;
+
+        background:
+            rgba(0, 0, 0, 0.52);
+
+        backdrop-filter: blur(2px);
+
+        z-index: 150;
+    }
+
+
+    /* -------------------------------
+       Content
+    ------------------------------- */
 
     .seller-content {
         width: 100%;
+
         margin-left: 0;
-        padding: 24px 18px;
-    }
 
-    .seller-brand {
-        padding-bottom: 16px;
-    }
+        min-height: 100vh;
 
-    .seller-nav-section {
-        padding-top: 18px;
-    }
-
-    .seller-nav {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 5px;
-    }
-
-    .seller-sidebar-bottom {
-        margin-top: 18px;
-        padding-top: 14px;
+        padding:
+            88px 20px 28px;
     }
 }
 
 
-@media (max-width: 500px) {
+/* ========================================
+   Small Mobile
+======================================== */
+
+@media (max-width: 480px) {
+
+    .seller-mobile-header {
+        height: 60px;
+
+        padding: 0 13px;
+    }
+
+
+    .seller-menu-button {
+        width: 38px;
+        height: 38px;
+    }
+
+
+    .seller-mobile-brand {
+        margin-left: 9px;
+    }
+
+
+    .seller-mobile-logo-wrap {
+        width: 32px;
+        height: 32px;
+    }
+
+
+    .seller-mobile-logo {
+        width: 24px;
+        height: 24px;
+    }
+
+
+    .seller-mobile-brand-text strong {
+        font-size: 13px;
+    }
+
+
+    .seller-mobile-brand-text span {
+        font-size: 8px;
+    }
+
 
     .seller-content {
-        padding: 20px 14px;
+        padding:
+            80px 14px 24px;
     }
 
-    .seller-nav {
-        grid-template-columns: 1fr;
+
+    .seller-sidebar {
+        width: 275px;
     }
+
 
     .nav-item {
-        min-height: 42px;
+        min-height: 44px;
     }
 }

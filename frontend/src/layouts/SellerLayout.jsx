@@ -4,17 +4,29 @@ import {
     ShoppingBag,
     Users,
     CreditCard,
+    BadgeDollarSign,
     Settings,
     ExternalLink,
     LogOut,
+    Menu,
+    X,
 } from "lucide-react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+
+import {
+    NavLink,
+    Outlet,
+    useNavigate,
+} from "react-router-dom";
+
+import { useState } from "react";
 
 import api from "../services/api";
 import "./SellerLayout.css";
 
 function SellerLayout() {
     const navigate = useNavigate();
+
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const handleLogout = async () => {
         try {
@@ -25,6 +37,10 @@ function SellerLayout() {
 
         localStorage.removeItem("seller_token");
         navigate("/seller/login");
+    };
+
+    const closeSidebar = () => {
+        setSidebarOpen(false);
     };
 
     const navigationItems = [
@@ -54,6 +70,11 @@ function SellerLayout() {
             icon: CreditCard,
         },
         {
+            label: "Subscription",
+            path: "/seller/subscription",
+            icon: BadgeDollarSign,
+        },
+        {
             label: "Store Settings",
             path: "/seller/settings",
             icon: Settings,
@@ -64,14 +85,75 @@ function SellerLayout() {
         <div className="seller-layout">
 
             {/* =================================
+                Mobile Header
+            ================================= */}
+
+            <header className="seller-mobile-header">
+
+                <button
+                    type="button"
+                    className="seller-menu-button"
+                    onClick={() => setSidebarOpen(true)}
+                    aria-label="Open menu"
+                >
+                    <Menu size={22} />
+                </button>
+
+                <div className="seller-mobile-brand">
+                    <div className="seller-mobile-logo-wrap">
+                        <img
+                            src="/zaysai-logo.png"
+                            alt="ZaySai"
+                            className="seller-mobile-logo"
+                        />
+                    </div>
+
+                    <div className="seller-mobile-brand-text">
+                        <strong>ZaySai</strong>
+                        <span>Seller Console</span>
+                    </div>
+                </div>
+
+            </header>
+
+
+            {/* =================================
+                Mobile Overlay
+            ================================= */}
+
+            {sidebarOpen && (
+                <div
+                    className="seller-sidebar-overlay"
+                    onClick={closeSidebar}
+                />
+            )}
+
+
+            {/* =================================
                 Sidebar
             ================================= */}
 
-            <aside className="seller-sidebar">
+            <aside
+                className={`seller-sidebar ${sidebarOpen ? "mobile-open" : ""
+                    }`}
+            >
+
+                {/* Mobile Close Button */}
+
+                <button
+                    type="button"
+                    className="seller-sidebar-close"
+                    onClick={closeSidebar}
+                    aria-label="Close menu"
+                >
+                    <X size={21} />
+                </button>
+
 
                 {/* Brand */}
 
                 <div className="seller-brand">
+
                     <div className="seller-brand-logo-wrap">
                         <img
                             src="/zaysai-logo.png"
@@ -84,6 +166,7 @@ function SellerLayout() {
                         <strong>ZaySai</strong>
                         <span>Seller Console</span>
                     </div>
+
                 </div>
 
 
@@ -98,12 +181,14 @@ function SellerLayout() {
                     <nav className="seller-nav">
 
                         {navigationItems.map((item) => {
+
                             const Icon = item.icon;
 
                             return (
                                 <NavLink
                                     key={item.path}
                                     to={item.path}
+                                    onClick={closeSidebar}
                                     className={({ isActive }) =>
                                         isActive
                                             ? "nav-item active"
@@ -120,6 +205,7 @@ function SellerLayout() {
                         })}
 
                     </nav>
+
                 </div>
 
 
@@ -132,6 +218,7 @@ function SellerLayout() {
                     <a
                         href="/"
                         className="sidebar-store-link"
+                        onClick={closeSidebar}
                     >
                         <div className="sidebar-store-icon">
                             <ExternalLink size={16} />
@@ -139,7 +226,9 @@ function SellerLayout() {
 
                         <div className="sidebar-store-text">
                             <span>Storefront</span>
-                            <strong>View your store</strong>
+                            <strong>
+                                View your store
+                            </strong>
                         </div>
                     </a>
 
@@ -153,7 +242,9 @@ function SellerLayout() {
                     >
                         <LogOut size={18} />
 
-                        <span>Logout</span>
+                        <span>
+                            Logout
+                        </span>
                     </button>
 
                 </div>

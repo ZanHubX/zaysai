@@ -11,6 +11,8 @@ import {
     Coins,
     Users,
     Wrench,
+    UserRound,
+    Link as LinkIcon,
 } from "lucide-react";
 import api from "../services/api";
 
@@ -20,6 +22,12 @@ function AdminSettingsPage() {
         platform_description: "",
         support_email: "",
         support_telegram: "",
+
+        contact_platform: "Telegram",
+        contact_name: "",
+        contact_username: "",
+        contact_link: "",
+
         currency: "MMK",
         seller_registration: true,
         maintenance_mode: false,
@@ -40,7 +48,6 @@ function AdminSettingsPage() {
             setError("");
 
             const response = await api.get("/admin/settings");
-
             const data = response.data.settings || {};
 
             setSettings({
@@ -50,6 +57,16 @@ function AdminSettingsPage() {
                 support_email: data.support_email || "",
                 support_telegram:
                     data.support_telegram || "",
+
+                contact_platform:
+                    data.contact_platform || "Telegram",
+                contact_name:
+                    data.contact_name || "",
+                contact_username:
+                    data.contact_username || "",
+                contact_link:
+                    data.contact_link || "",
+
                 currency: data.currency || "MMK",
                 seller_registration:
                     data.seller_registration ?? true,
@@ -136,7 +153,6 @@ function AdminSettingsPage() {
                     size={32}
                     className="admin-loading-icon"
                 />
-
                 <p>Loading settings...</p>
             </div>
         );
@@ -144,12 +160,9 @@ function AdminSettingsPage() {
 
     return (
         <div className="admin-dashboard">
-
-            {/* Header */}
             <div className="admin-dashboard-header">
                 <div>
                     <h1>Settings</h1>
-
                     <p>
                         Manage your ZaySai platform settings
                     </p>
@@ -157,66 +170,48 @@ function AdminSettingsPage() {
 
                 <div className="admin-page-count">
                     <Settings size={17} />
-
                     <span>Platform Settings</span>
                 </div>
             </div>
 
-
-            {/* Error */}
             {error && (
                 <div className="admin-settings-alert error">
                     <AlertCircle size={18} />
-
                     <span>{error}</span>
                 </div>
             )}
 
-
-            {/* Success */}
             {success && (
                 <div className="admin-settings-alert success">
                     <CheckCircle2 size={18} />
-
                     <span>{success}</span>
                 </div>
             )}
 
-
             <form onSubmit={handleSubmit}>
-
                 {/* Platform Settings */}
                 <div className="admin-settings-card">
-
                     <div className="admin-settings-card-header">
-
                         <div className="admin-settings-card-icon">
                             <Globe size={19} />
                         </div>
 
                         <div>
                             <h2>Platform Settings</h2>
-
                             <p>
                                 Basic information about your
                                 ZaySai platform
                             </p>
                         </div>
-
                     </div>
 
-
                     <div className="admin-settings-grid">
-
-                        {/* Platform Name */}
                         <div className="admin-settings-field">
-
                             <label htmlFor="platform_name">
                                 Platform Name
                             </label>
 
                             <div className="admin-settings-input">
-
                                 <Globe size={17} />
 
                                 <input
@@ -230,21 +225,15 @@ function AdminSettingsPage() {
                                     placeholder="ZaySai"
                                     required
                                 />
-
                             </div>
-
                         </div>
 
-
-                        {/* Currency */}
                         <div className="admin-settings-field">
-
                             <label htmlFor="currency">
                                 Currency
                             </label>
 
                             <div className="admin-settings-input">
-
                                 <Coins size={17} />
 
                                 <select
@@ -256,24 +245,17 @@ function AdminSettingsPage() {
                                     <option value="MMK">
                                         MMK
                                     </option>
-
                                     <option value="THB">
                                         THB
                                     </option>
-
                                     <option value="USD">
                                         USD
                                     </option>
                                 </select>
-
                             </div>
-
                         </div>
 
-
-                        {/* Description */}
                         <div className="admin-settings-field full">
-
                             <label htmlFor="platform_description">
                                 Platform Description
                             </label>
@@ -288,46 +270,33 @@ function AdminSettingsPage() {
                                 placeholder="Describe your platform..."
                                 rows="4"
                             />
-
                         </div>
-
                     </div>
-
                 </div>
 
-
-                {/* Support */}
+                {/* Support Contact */}
                 <div className="admin-settings-card">
-
                     <div className="admin-settings-card-header">
-
                         <div className="admin-settings-card-icon">
                             <Send size={19} />
                         </div>
 
                         <div>
                             <h2>Support Contact</h2>
-
                             <p>
-                                Contact information for
-                                platform support
+                                Contact information for platform
+                                support
                             </p>
                         </div>
-
                     </div>
 
-
                     <div className="admin-settings-grid">
-
-                        {/* Email */}
                         <div className="admin-settings-field">
-
                             <label htmlFor="support_email">
                                 Support Email
                             </label>
 
                             <div className="admin-settings-input">
-
                                 <Mail size={17} />
 
                                 <input
@@ -340,21 +309,15 @@ function AdminSettingsPage() {
                                     onChange={handleChange}
                                     placeholder="support@zaysai.com"
                                 />
-
                             </div>
-
                         </div>
 
-
-                        {/* Telegram */}
                         <div className="admin-settings-field">
-
                             <label htmlFor="support_telegram">
                                 Support Telegram
                             </label>
 
                             <div className="admin-settings-input">
-
                                 <Send size={17} />
 
                                 <input
@@ -367,44 +330,168 @@ function AdminSettingsPage() {
                                     onChange={handleChange}
                                     placeholder="@zaysai_support"
                                 />
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
 
+                {/* Contact Admin */}
+                <div className="admin-settings-card">
+                    <div className="admin-settings-card-header">
+                        <div className="admin-settings-card-icon">
+                            <UserRound size={19} />
+                        </div>
+
+                        <div>
+                            <h2>Contact Admin</h2>
+                            <p>
+                                Configure the admin contact shown
+                                to sellers and customers
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="admin-settings-grid">
+                        <div className="admin-settings-field">
+                            <label htmlFor="contact_platform">
+                                Contact Platform
+                            </label>
+
+                            <div className="admin-settings-input">
+                                <Send size={17} />
+
+                                <select
+                                    id="contact_platform"
+                                    name="contact_platform"
+                                    value={
+                                        settings.contact_platform
+                                    }
+                                    onChange={handleChange}
+                                    required
+                                >
+                                    <option value="Telegram">
+                                        Telegram
+                                    </option>
+                                    <option value="Facebook">
+                                        Facebook
+                                    </option>
+                                    <option value="Messenger">
+                                        Messenger
+                                    </option>
+                                    <option value="Viber">
+                                        Viber
+                                    </option>
+                                    <option value="WhatsApp">
+                                        WhatsApp
+                                    </option>
+                                    <option value="Email">
+                                        Email
+                                    </option>
+                                    <option value="Other">
+                                        Other
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="admin-settings-field">
+                            <label htmlFor="contact_name">
+                                Admin Name
+                            </label>
+
+                            <div className="admin-settings-input">
+                                <UserRound size={17} />
+
+                                <input
+                                    id="contact_name"
+                                    name="contact_name"
+                                    type="text"
+                                    value={
+                                        settings.contact_name
+                                    }
+                                    onChange={handleChange}
+                                    placeholder="ZaySai Admin"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="admin-settings-field">
+                            <label htmlFor="contact_username">
+                                Username / Contact
+                            </label>
+
+                            <div className="admin-settings-input">
+                                <Send size={17} />
+
+                                <input
+                                    id="contact_username"
+                                    name="contact_username"
+                                    type="text"
+                                    value={
+                                        settings.contact_username
+                                    }
+                                    onChange={handleChange}
+                                    placeholder="@zaysai_admin"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="admin-settings-field">
+                            <label htmlFor="contact_link">
+                                Contact Link
+                            </label>
+
+                            <div className="admin-settings-input">
+                                <LinkIcon size={17} />
+
+                                <input
+                                    id="contact_link"
+                                    name="contact_link"
+                                    type="url"
+                                    value={
+                                        settings.contact_link
+                                    }
+                                    onChange={handleChange}
+                                    placeholder="https://t.me/zaysai_admin"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="admin-settings-field full">
+                            <small
+                                style={{
+                                    color: "#6b7280",
+                                    fontSize: "12px",
+                                }}
+                            >
+                                This information can be used by
+                                the storefront Contact Admin
+                                button. Use the full URL including
+                                https://.
+                            </small>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Platform Controls */}
                 <div className="admin-settings-card">
-
                     <div className="admin-settings-card-header">
-
                         <div className="admin-settings-card-icon">
                             <Wrench size={19} />
                         </div>
 
                         <div>
                             <h2>Platform Controls</h2>
-
                             <p>
                                 Control important platform
                                 behaviors
                             </p>
                         </div>
-
                     </div>
 
-
                     <div className="admin-settings-options">
-
-                        {/* Seller Registration */}
                         <div className="admin-settings-option">
-
                             <div className="admin-settings-option-info">
-
                                 <div className="admin-settings-option-icon">
                                     <Users size={18} />
                                 </div>
@@ -419,9 +506,7 @@ function AdminSettingsPage() {
                                         register on ZaySai
                                     </p>
                                 </div>
-
                             </div>
-
 
                             <button
                                 type="button"
@@ -437,15 +522,10 @@ function AdminSettingsPage() {
                             >
                                 <span />
                             </button>
-
                         </div>
 
-
-                        {/* Maintenance Mode */}
                         <div className="admin-settings-option">
-
                             <div className="admin-settings-option-info">
-
                                 <div className="admin-settings-option-icon">
                                     <Wrench size={18} />
                                 </div>
@@ -461,9 +541,7 @@ function AdminSettingsPage() {
                                         mode
                                     </p>
                                 </div>
-
                             </div>
-
 
                             <button
                                 type="button"
@@ -479,17 +557,12 @@ function AdminSettingsPage() {
                             >
                                 <span />
                             </button>
-
                         </div>
-
                     </div>
-
                 </div>
-
 
                 {/* Save */}
                 <div className="admin-settings-actions">
-
                     <button
                         type="submit"
                         className="admin-settings-save"
@@ -501,20 +574,16 @@ function AdminSettingsPage() {
                                     size={18}
                                     className="admin-loading-icon"
                                 />
-
                                 Saving...
                             </>
                         ) : (
                             <>
                                 <Save size={18} />
-
                                 Save Settings
                             </>
                         )}
                     </button>
-
                 </div>
-
             </form>
         </div>
     );

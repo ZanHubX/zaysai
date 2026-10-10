@@ -20,6 +20,12 @@ function SellerSettingsPage() {
         slug: "",
         description: "",
         phone: "",
+
+        contact_platform: "Telegram",
+        contact_name: "",
+        contact_username: "",
+        contact_link: "",
+
         logo: "",
     });
 
@@ -52,6 +58,16 @@ function SellerSettingsPage() {
                 slug: data.slug || "",
                 description: data.description || "",
                 phone: data.phone || "",
+
+                contact_platform:
+                    data.contact_platform || "Telegram",
+                contact_name:
+                    data.contact_name || "",
+                contact_username:
+                    data.contact_username || "",
+                contact_link:
+                    data.contact_link || "",
+
                 logo: data.logo || "",
             });
 
@@ -158,6 +174,26 @@ function SellerSettingsPage() {
             );
             formData.append("phone", form.phone);
 
+            formData.append(
+                "contact_platform",
+                form.contact_platform
+            );
+
+            formData.append(
+                "contact_name",
+                form.contact_name
+            );
+
+            formData.append(
+                "contact_username",
+                form.contact_username
+            );
+
+            formData.append(
+                "contact_link",
+                form.contact_link
+            );
+
             /*
             |--------------------------------------------------------------------------
             | Laravel Method Spoofing
@@ -198,6 +234,17 @@ function SellerSettingsPage() {
                 description:
                     updatedStore.description || "",
                 phone: updatedStore.phone || "",
+
+                contact_platform:
+                    updatedStore.contact_platform ||
+                    "Telegram",
+                contact_name:
+                    updatedStore.contact_name || "",
+                contact_username:
+                    updatedStore.contact_username || "",
+                contact_link:
+                    updatedStore.contact_link || "",
+
                 logo: updatedStore.logo || "",
             });
 
@@ -592,6 +639,81 @@ function SellerSettingsPage() {
 
                             </div>
 
+                        </div>
+
+                        {/* Contact Admin */}
+                        <div className="settings-field">
+                            <label>
+                                Contact Admin
+                            </label>
+
+                            <small>
+                                Add the Telegram account customers should
+                                contact for this store.
+                            </small>
+
+                            <select
+                                name="contact_platform"
+                                value={form.contact_platform}
+                                onChange={handleChange}
+                            >
+                                <option value="Telegram">
+                                    Telegram
+                                </option>
+                            </select>
+                        </div>
+
+                        <div className="settings-field">
+                            <label>
+                                Admin Name
+                            </label>
+
+                            <input
+                                type="text"
+                                name="contact_name"
+                                value={form.contact_name}
+                                onChange={handleChange}
+                                placeholder="GameHub Admin"
+                            />
+                        </div>
+
+                        <div className="settings-field">
+                            <label>
+                                Telegram Username
+                            </label>
+
+                            <input
+                                type="text"
+                                name="contact_username"
+                                value={form.contact_username}
+                                onChange={handleChange}
+                                placeholder="@gamehub_admin"
+                            />
+
+                            <small>
+                                Example: @gamehub_admin. If the contact
+                                link is empty, ZaySai will create the
+                                Telegram link automatically.
+                            </small>
+                        </div>
+
+                        <div className="settings-field">
+                            <label>
+                                Telegram Contact Link
+                            </label>
+
+                            <input
+                                type="url"
+                                name="contact_link"
+                                value={form.contact_link}
+                                onChange={handleChange}
+                                placeholder="https://t.me/gamehub_admin"
+                            />
+
+                            <small>
+                                Customers will be sent to this account
+                                when they click Contact Admin.
+                            </small>
                         </div>
 
                         {/* Error */}

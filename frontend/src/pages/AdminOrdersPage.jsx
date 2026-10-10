@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
     ShoppingCart,
@@ -7,6 +8,7 @@ import {
     CreditCard,
     LoaderCircle,
     AlertCircle,
+    ChevronRight,
 } from "lucide-react";
 import api from "../services/api";
 
@@ -14,6 +16,8 @@ function AdminOrdersPage() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchOrders();
@@ -85,6 +89,10 @@ function AdminOrdersPage() {
         }
     };
 
+    const handleOrderClick = (orderId) => {
+        navigate(`/admin/orders/${orderId}`);
+    };
+
     if (loading) {
         return (
             <div className="admin-dashboard-loading">
@@ -110,7 +118,6 @@ function AdminOrdersPage() {
 
     return (
         <div className="admin-dashboard">
-
             {/* Header */}
             <div className="admin-dashboard-header">
                 <div>
@@ -130,10 +137,8 @@ function AdminOrdersPage() {
                 </div>
             </div>
 
-
             {/* Orders */}
             <div className="admin-section">
-
                 <div className="admin-section-header">
                     <div>
                         <h2>All Orders</h2>
@@ -144,11 +149,8 @@ function AdminOrdersPage() {
                     </div>
                 </div>
 
-
                 <div className="admin-table-wrapper">
-
                     <table className="admin-table">
-
                         <thead>
                             <tr>
                                 <th>Order</th>
@@ -160,16 +162,15 @@ function AdminOrdersPage() {
                                 <th>Order Status</th>
                                 <th>Fulfillment</th>
                                 <th>Created</th>
+                                <th></th>
                             </tr>
                         </thead>
 
-
                         <tbody>
-
                             {orders.length === 0 ? (
                                 <tr>
                                     <td
-                                        colSpan="9"
+                                        colSpan="10"
                                         className="admin-empty"
                                     >
                                         No orders found.
@@ -177,95 +178,108 @@ function AdminOrdersPage() {
                                 </tr>
                             ) : (
                                 orders.map((order) => (
-                                    <tr key={order.id}>
-
+                                    <tr
+                                        key={order.id}
+                                        className="admin-order-row-clickable"
+                                        onClick={() =>
+                                            handleOrderClick(
+                                                order.id
+                                            )
+                                        }
+                                    >
                                         {/* Order */}
                                         <td>
                                             <div className="admin-order-cell">
-
                                                 <div className="admin-order-avatar">
-                                                    <ShoppingCart size={17} />
+                                                    <ShoppingCart
+                                                        size={17}
+                                                    />
                                                 </div>
 
                                                 <div>
                                                     <strong>
-                                                        {order.order_number}
+                                                        {
+                                                            order.order_number
+                                                        }
                                                     </strong>
 
                                                     <span>
                                                         #{order.id}
                                                     </span>
                                                 </div>
-
                                             </div>
                                         </td>
-
 
                                         {/* Customer */}
                                         <td>
                                             {order.customer ? (
                                                 <div className="admin-owner-cell">
-
                                                     <div className="admin-inline-icon">
                                                         <User size={14} />
                                                     </div>
 
                                                     <div>
                                                         <strong>
-                                                            {order.customer.name ||
+                                                            {order
+                                                                .customer
+                                                                .name ||
                                                                 "-"}
                                                         </strong>
 
                                                         <span>
-                                                            {order.customer.phone ||
+                                                            {order
+                                                                .customer
+                                                                .phone ||
                                                                 "-"}
                                                         </span>
                                                     </div>
-
                                                 </div>
                                             ) : (
                                                 "-"
                                             )}
                                         </td>
-
 
                                         {/* Store */}
                                         <td>
                                             {order.store ? (
                                                 <div className="admin-store-cell">
-
                                                     <Store size={16} />
 
                                                     <div>
                                                         <strong>
-                                                            {order.store.name}
+                                                            {
+                                                                order
+                                                                    .store
+                                                                    .name
+                                                            }
                                                         </strong>
 
                                                         <span>
-                                                            /{order.store.slug}
+                                                            /
+                                                            {
+                                                                order
+                                                                    .store
+                                                                    .slug
+                                                            }
                                                         </span>
                                                     </div>
-
                                                 </div>
                                             ) : (
                                                 "-"
                                             )}
                                         </td>
 
-
                                         {/* Items */}
                                         <td>
                                             <div className="admin-number-cell">
-
                                                 <Package size={15} />
 
                                                 <strong>
-                                                    {order.items_count ?? 0}
+                                                    {order.items_count ??
+                                                        0}
                                                 </strong>
-
                                             </div>
                                         </td>
-
 
                                         {/* Total */}
                                         <td>
@@ -277,17 +291,17 @@ function AdminOrdersPage() {
                                             </strong>
                                         </td>
 
-
                                         {/* Payment */}
                                         <td>
                                             <div className="admin-order-payment">
-
                                                 <span
                                                     className={`admin-payment-status ${getPaymentClass(
                                                         order.payment_status
                                                     )}`}
                                                 >
-                                                    <CreditCard size={13} />
+                                                    <CreditCard
+                                                        size={13}
+                                                    />
 
                                                     {order.payment_status ||
                                                         "-"}
@@ -302,10 +316,8 @@ function AdminOrdersPage() {
                                                         }
                                                     </small>
                                                 )}
-
                                             </div>
                                         </td>
-
 
                                         {/* Order Status */}
                                         <td>
@@ -317,7 +329,6 @@ function AdminOrdersPage() {
                                                 {order.status || "-"}
                                             </span>
                                         </td>
-
 
                                         {/* Fulfillment */}
                                         <td>
@@ -331,7 +342,6 @@ function AdminOrdersPage() {
                                             </span>
                                         </td>
 
-
                                         {/* Created */}
                                         <td>
                                             <div className="admin-date-cell">
@@ -343,14 +353,19 @@ function AdminOrdersPage() {
                                             </div>
                                         </td>
 
+                                        {/* View */}
+                                        <td>
+                                            <div className="admin-order-view-icon">
+                                                <ChevronRight
+                                                    size={18}
+                                                />
+                                            </div>
+                                        </td>
                                     </tr>
                                 ))
                             )}
-
                         </tbody>
-
                     </table>
-
                 </div>
             </div>
         </div>

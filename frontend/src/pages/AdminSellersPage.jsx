@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
     Users,
     Store,
     LoaderCircle,
-    AlertCircle,
+    ChevronRight,
 } from "lucide-react";
 import api from "../services/api";
 
 function AdminSellersPage() {
+    const navigate = useNavigate();
+
     const [sellers, setSellers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -25,7 +28,7 @@ function AdminSellersPage() {
 
             setSellers(response.data.sellers || []);
         } catch (err) {
-            console.error(err);
+            console.error("Sellers loading error:", err);
 
             setError(
                 err.response?.data?.message ||
@@ -39,40 +42,36 @@ function AdminSellersPage() {
     const formatDate = (date) => {
         if (!date) return "-";
 
-        return new Date(date).toLocaleDateString("en-GB", {
-            day: "2-digit",
-            month: "short",
+        return new Date(date).toLocaleDateString("en-US", {
             year: "numeric",
+            month: "short",
+            day: "numeric",
         });
+    };
+
+    const handleSellerClick = (sellerId) => {
+        navigate(`/admin/sellers/${sellerId}`);
     };
 
     if (loading) {
         return (
-            <div className="admin-dashboard-loading">
-                <LoaderCircle
-                    size={32}
-                    className="admin-loading-icon"
-                />
-
-                <p>Loading sellers...</p>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="admin-dashboard-error">
-                <AlertCircle size={20} />
-                <span>{error}</span>
+            <div className="admin-page">
+                <div className="admin-page-loading">
+                    <LoaderCircle
+                        size={24}
+                        className="admin-loading-icon"
+                    />
+                    Loading sellers...
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="admin-dashboard">
+        <div className="admin-page">
 
             {/* Header */}
-            <div className="admin-dashboard-header">
+            <div className="admin-page-header">
                 <div>
                     <h1>Sellers</h1>
 
@@ -83,17 +82,21 @@ function AdminSellersPage() {
 
                 <div className="admin-page-count">
                     <Users size={17} />
-
-                    <span>
-                        {sellers.length} Sellers
-                    </span>
+                    {sellers.length} Sellers
                 </div>
             </div>
 
-            {/* Sellers Table */}
-            <div className="admin-section">
+            {/* Error */}
+            {error && (
+                <div className="admin-error-card">
+                    {error}
+                </div>
+            )}
 
-                <div className="admin-section-header">
+            {/* Sellers Card */}
+            <div className="admin-card admin-sellers-list-card">
+
+                <div className="admin-card-header">
                     <div>
                         <h2>All Sellers</h2>
 
@@ -103,52 +106,59 @@ function AdminSellersPage() {
                     </div>
                 </div>
 
-                <div className="admin-table-wrapper">
-                    <table className="admin-table">
+                {sellers.length === 0 ? (
+                    <div className="admin-empty-state">
+                        No sellers found.
+                    </div>
+                ) : (
+                    <div className="admin-table-wrapper">
 
-                        <thead>
-                            <tr>
-                                <th>Seller</th>
-                                <th>Email</th>
-                                <th>Store</th>
-                                <th>Status</th>
-                                <th>Joined</th>
-                            </tr>
-                        </thead>
+                        <table className="admin-table admin-sellers-table">
 
-                        <tbody>
-
-                            {sellers.length === 0 ? (
+                            <thead>
                                 <tr>
-                                    <td
-                                        colSpan="5"
-                                        className="admin-empty"
-                                    >
-                                        No sellers found.
-                                    </td>
+                                    <th>Seller</th>
+                                    <th>Email</th>
+                                    <th>Store</th>
+                                    <th>Status</th>
+                                    <th>Joined</th>
+                                    <th></th>
                                 </tr>
-                            ) : (
-                                sellers.map((seller) => (
-                                    <tr key={seller.id}>
+                            </thead>
+
+                            <tbody>
+
+                                {sellers.map((seller) => (
+
+                                    <tr
+                                        key={seller.id}
+                                        className="admin-seller-row-clickable"
+                                        onClick={() =>
+                                            handleSellerClick(
+                                                seller.id
+                                            )
+                                        }
+                                    >
 
                                         {/* Seller */}
                                         <td>
-                                            <div className="admin-seller-cell">
+                                            <div className="admin-seller-table-info">
 
-                                                <div className="admin-seller-avatar">
+                                                <div className="admin-seller-table-avatar">
                                                     {seller.name
                                                         ?.charAt(0)
-                                                        ?.toUpperCase() || "S"}
+                                                        ?.toUpperCase() ||
+                                                        "S"}
                                                 </div>
 
                                                 <div>
-                                                    <strong>
+                                                    <div className="admin-table-primary">
                                                         {seller.name}
-                                                    </strong>
+                                                    </div>
 
-                                                    <span>
-                                                        ID #{seller.id}
-                                                    </span>
+                                                    <div className="admin-table-secondary">
+                                                        Seller ID #{seller.id}
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -156,35 +166,35 @@ function AdminSellersPage() {
 
                                         {/* Email */}
                                         <td>
-                                            {seller.email || "-"}
+                                            <span className="admin-seller-email">
+                                                {seller.email}
+                                            </span>
                                         </td>
 
                                         {/* Store */}
                                         <td>
                                             {seller.store ? (
-                                                <div className="admin-store-cell">
+                                                <div className="admin-seller-store-info">
 
-                                                    <Store
-                                                        size={16}
-                                                    />
+                                                    <Store size={15} />
 
                                                     <div>
-                                                        <strong>
+                                                        <div className="admin-table-primary">
                                                             {
                                                                 seller
                                                                     .store
                                                                     .name
                                                             }
-                                                        </strong>
+                                                        </div>
 
-                                                        <span>
+                                                        <div className="admin-table-secondary">
                                                             /
                                                             {
                                                                 seller
                                                                     .store
                                                                     .slug
                                                             }
-                                                        </span>
+                                                        </div>
                                                     </div>
 
                                                 </div>
@@ -196,10 +206,11 @@ function AdminSellersPage() {
                                         {/* Status */}
                                         <td>
                                             <span
-                                                className={`admin-seller-status ${seller.is_active
-                                                        ? "active"
-                                                        : "inactive"
-                                                    }`}
+                                                className={
+                                                    seller.is_active
+                                                        ? "admin-seller-status active"
+                                                        : "admin-seller-status inactive"
+                                                }
                                             >
                                                 {seller.is_active
                                                     ? "Active"
@@ -214,16 +225,27 @@ function AdminSellersPage() {
                                             )}
                                         </td>
 
+                                        {/* Arrow */}
+                                        <td>
+                                            <div className="admin-seller-view-icon">
+                                                <ChevronRight
+                                                    size={18}
+                                                />
+                                            </div>
+                                        </td>
+
                                     </tr>
-                                ))
-                            )}
 
-                        </tbody>
+                                ))}
 
-                    </table>
-                </div>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                )}
+
             </div>
-
         </div>
     );
 }

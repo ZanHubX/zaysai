@@ -23,10 +23,7 @@ import SellerCustomersPage from "./pages/SellerCustomersPage";
 import SellerCustomerDetailPage from "./pages/SellerCustomerDetailPage";
 import SellerPaymentMethodsPage from "./pages/SellerPaymentMethodsPage";
 import SellerSettingsPage from "./pages/SellerSettingsPage";
-
-// =========================================================
-// Seller Protection / Layout
-// =========================================================
+import SellerSubscriptionPage from "./pages/SellerSubscriptionPage";
 
 import ProtectedSellerRoute from "./components/ProtectedSellerRoute";
 import SellerLayout from "./layouts/SellerLayout";
@@ -38,14 +35,16 @@ import SellerLayout from "./layouts/SellerLayout";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminSellersPage from "./pages/AdminSellersPage";
+import AdminSellerDetailPage from "./pages/AdminSellerDetailPage";
 import AdminStoresPage from "./pages/AdminStoresPage";
+import AdminStoreDetailPage from "./pages/AdminStoreDetailPage";
 import AdminProductsPage from "./pages/AdminProductsPage";
+import AdminProductDetailPage from "./pages/AdminProductDetailPage";
 import AdminOrdersPage from "./pages/AdminOrdersPage";
+import AdminOrderDetailPage from "./pages/AdminOrderDetailPage";
 import AdminSettingsPage from "./pages/AdminSettingsPage";
-
-// =========================================================
-// Admin Protection / Layout
-// =========================================================
+import AdminSubscriptionPaymentsPage from "./pages/AdminSubscriptionPaymentsPage";
+import AdminSubscriptionPaymentMethodsPage from "./pages/AdminSubscriptionPaymentMethodsPage";
 
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import AdminLayout from "./layouts/AdminLayout";
@@ -55,180 +54,23 @@ function App() {
   return (
     <BrowserRouter>
 
-      {/* Global Loading Animation */}
       <GlobalLoader />
 
       <Routes>
 
-        {/* =================================================
-                    SELLER LOGIN
-                ================================================= */}
-
-        <Route
-          path="/seller/login"
-          element={<SellerLoginPage />}
-        />
-
-
-        {/* =================================================
-                    PROTECTED SELLER PANEL
-                ================================================= */}
-
-        <Route element={<ProtectedSellerRoute />}>
-
-          <Route element={<SellerLayout />}>
-
-            {/* Seller Dashboard */}
-
-            <Route
-              path="/seller/dashboard"
-              element={<SellerDashboardPage />}
-            />
-
-
-            {/* Seller Products */}
-
-            <Route
-              path="/seller/products"
-              element={<SellerProductsPage />}
-            />
-
-
-            {/* Seller Orders */}
-
-            <Route
-              path="/seller/orders"
-              element={<SellerOrdersPage />}
-            />
-
-
-            {/* Seller Order Detail */}
-
-            <Route
-              path="/seller/orders/:id"
-              element={<SellerOrderDetailPage />}
-            />
-
-
-            {/* Seller Customers */}
-
-            <Route
-              path="/seller/customers"
-              element={<SellerCustomersPage />}
-            />
-
-
-            {/* Seller Customer Detail */}
-
-            <Route
-              path="/seller/customers/:phone"
-              element={<SellerCustomerDetailPage />}
-            />
-
-
-            {/* Seller Payment Methods */}
-
-            <Route
-              path="/seller/payment-methods"
-              element={<SellerPaymentMethodsPage />}
-            />
-
-
-            {/* Seller Store Settings */}
-
-            <Route
-              path="/seller/settings"
-              element={<SellerSettingsPage />}
-            />
-
-          </Route>
-
-        </Route>
-
-
-        {/* =================================================
-                    ADMIN LOGIN
-                ================================================= */}
-
-        <Route
-          path="/admin/login"
-          element={<AdminLoginPage />}
-        />
-
-
-        {/* =================================================
-                    PROTECTED ADMIN PANEL
-                ================================================= */}
-
-        <Route element={<ProtectedAdminRoute />}>
-
-          <Route element={<AdminLayout />}>
-
-            {/* Admin Dashboard */}
-
-            <Route
-              path="/admin/dashboard"
-              element={<AdminDashboardPage />}
-            />
-
-
-            {/* Admin Sellers */}
-
-            <Route
-              path="/admin/sellers"
-              element={<AdminSellersPage />}
-            />
-
-
-            {/* Admin Stores */}
-
-            <Route
-              path="/admin/stores"
-              element={<AdminStoresPage />}
-            />
-
-
-            {/* Admin Products */}
-
-            <Route
-              path="/admin/products"
-              element={<AdminProductsPage />}
-            />
-
-
-            {/* Admin Orders */}
-
-            <Route
-              path="/admin/orders"
-              element={<AdminOrdersPage />}
-            />
-
-
-            {/* Admin Settings */}
-
-            <Route
-              path="/admin/settings"
-              element={<AdminSettingsPage />}
-            />
-
-          </Route>
-
-        </Route>
-
-
-        {/* =================================================
-                    CUSTOMER ORDER TRACKING
-                ================================================= */}
+        {/* =====================================================
+                    PUBLIC
+                ===================================================== */}
 
         <Route
           path="/track-order"
           element={<OrderTrackingPage />}
         />
 
-
-        {/* =================================================
-                    PUBLIC STOREFRONT
-                ================================================= */}
+        <Route
+          path="/:slug/products/:productSlug"
+          element={<ProductDetailPage />}
+        />
 
         <Route
           path="/:slug"
@@ -236,14 +78,244 @@ function App() {
         />
 
 
-        {/* =================================================
-                    PUBLIC PRODUCT DETAIL
-                ================================================= */}
+        {/* =====================================================
+                    SELLER LOGIN
+                ===================================================== */}
 
         <Route
-          path="/:slug/products/:productSlug"
-          element={<ProductDetailPage />}
+          path="/seller/login"
+          element={<SellerLoginPage />}
         />
+
+
+        {/* =====================================================
+                    PROTECTED SELLER
+                ===================================================== */}
+
+        <Route
+          element={<ProtectedSellerRoute />}
+        >
+
+          <Route
+            element={<SellerLayout />}
+          >
+
+            <Route
+              path="/seller/dashboard"
+              element={
+                <SellerDashboardPage />
+              }
+            />
+
+            <Route
+              path="/seller/products"
+              element={
+                <SellerProductsPage />
+              }
+            />
+
+            <Route
+              path="/seller/orders"
+              element={
+                <SellerOrdersPage />
+              }
+            />
+
+            <Route
+              path="/seller/orders/:id"
+              element={
+                <SellerOrderDetailPage />
+              }
+            />
+
+            <Route
+              path="/seller/customers"
+              element={
+                <SellerCustomersPage />
+              }
+            />
+
+            <Route
+              path="/seller/customers/:phone"
+              element={
+                <SellerCustomerDetailPage />
+              }
+            />
+
+            <Route
+              path="/seller/payment-methods"
+              element={
+                <SellerPaymentMethodsPage />
+              }
+            />
+
+            <Route
+              path="/seller/subscription"
+              element={
+                <SellerSubscriptionPage />
+              }
+            />
+
+            <Route
+              path="/seller/settings"
+              element={
+                <SellerSettingsPage />
+              }
+            />
+
+          </Route>
+
+        </Route>
+
+
+        {/* =====================================================
+                    ADMIN LOGIN
+                ===================================================== */}
+
+        <Route
+          path="/admin/login"
+          element={<AdminLoginPage />}
+        />
+
+
+        {/* =====================================================
+                    PROTECTED ADMIN
+                ===================================================== */}
+
+        <Route
+          element={<ProtectedAdminRoute />}
+        >
+
+          <Route
+            element={<AdminLayout />}
+          >
+
+            {/* =================================================
+                        ADMIN DASHBOARD
+                    ================================================= */}
+
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminDashboardPage />
+              }
+            />
+
+
+            {/* =================================================
+                        ADMIN SELLERS
+                    ================================================= */}
+
+            <Route
+              path="/admin/sellers"
+              element={
+                <AdminSellersPage />
+              }
+            />
+
+            <Route
+              path="/admin/sellers/:id"
+              element={
+                <AdminSellerDetailPage />
+              }
+            />
+
+
+            {/* =================================================
+                        ADMIN STORES
+                    ================================================= */}
+
+            <Route
+              path="/admin/stores"
+              element={
+                <AdminStoresPage />
+              }
+            />
+
+            <Route
+              path="/admin/stores/:id"
+              element={
+                <AdminStoreDetailPage />
+              }
+            />
+
+
+            {/* =================================================
+                        ADMIN PRODUCTS
+                    ================================================= */}
+
+            <Route
+              path="/admin/products"
+              element={
+                <AdminProductsPage />
+              }
+            />
+
+            <Route
+              path="/admin/products/:id"
+              element={
+                <AdminProductDetailPage />
+              }
+            />
+
+
+            {/* =================================================
+                        ADMIN ORDERS
+                    ================================================= */}
+
+            <Route
+              path="/admin/orders"
+              element={
+                <AdminOrdersPage />
+              }
+            />
+
+            <Route
+              path="/admin/orders/:id"
+              element={
+                <AdminOrderDetailPage />
+              }
+            />
+
+
+            {/* =================================================
+                        ADMIN SUBSCRIPTION PAYMENTS
+                    ================================================= */}
+
+            <Route
+              path="/admin/subscription-payments"
+              element={
+                <AdminSubscriptionPaymentsPage />
+              }
+            />
+
+
+            {/* =================================================
+                        ADMIN SUBSCRIPTION PAYMENT METHODS
+                    ================================================= */}
+
+            <Route
+              path="/admin/subscription-payment-methods"
+              element={
+                <AdminSubscriptionPaymentMethodsPage />
+              }
+            />
+
+
+            {/* =================================================
+                        ADMIN SETTINGS
+                    ================================================= */}
+
+            <Route
+              path="/admin/settings"
+              element={
+                <AdminSettingsPage />
+              }
+            />
+
+          </Route>
+
+        </Route>
 
       </Routes>
 

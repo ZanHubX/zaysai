@@ -62,6 +62,30 @@ class SellerStoreController extends Controller
                 'max:30',
             ],
 
+            'contact_platform' => [
+                'required',
+                'string',
+                'max:50',
+            ],
+
+            'contact_name' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
+            'contact_username' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
+            'contact_link' => [
+                'nullable',
+                'url',
+                'max:500',
+            ],
+
             'logo' => [
                 'nullable',
                 'image',
@@ -69,6 +93,37 @@ class SellerStoreController extends Controller
                 'max:2048',
             ],
         ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Telegram Contact Link
+        |--------------------------------------------------------------------------
+        |
+        | If the seller enters only a Telegram username, generate the
+        | public Telegram URL automatically.
+        |
+        */
+
+        $contactUsername = trim(
+            $validated['contact_username'] ?? ''
+        );
+
+        if (
+            $validated['contact_platform'] === 'Telegram' &&
+            $contactUsername !== '' &&
+            empty($validated['contact_link'])
+        ) {
+            $contactUsername = ltrim(
+                $contactUsername,
+                '@'
+            );
+
+            $validated['contact_username'] =
+                '@' . $contactUsername;
+
+            $validated['contact_link'] =
+                'https://t.me/' . $contactUsername;
+        }
 
         /*
         |--------------------------------------------------------------------------
@@ -131,6 +186,19 @@ class SellerStoreController extends Controller
             'slug' => $store->slug,
             'description' => $store->description,
             'phone' => $store->phone,
+
+            'contact_platform' =>
+            $store->contact_platform,
+
+            'contact_name' =>
+            $store->contact_name,
+
+            'contact_username' =>
+            $store->contact_username,
+
+            'contact_link' =>
+            $store->contact_link,
+
             'logo' => $store->logo,
             'status' => $store->status,
             'created_at' => $store->created_at,

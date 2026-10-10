@@ -16,6 +16,7 @@ import {
     Copy,
     Check,
     AlertCircle,
+    MessageCircle,
 } from "lucide-react";
 
 import api from "../services/api";
@@ -66,6 +67,20 @@ function OrderTrackingPage() {
 
     /*
     |--------------------------------------------------------------------------
+    | Contact Admin
+    |--------------------------------------------------------------------------
+    */
+
+    const [contactAdmin, setContactAdmin] = useState({
+        platform: "",
+        name: "",
+        username: "",
+        link: "",
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
     | Store Information
     |--------------------------------------------------------------------------
     |
@@ -73,6 +88,7 @@ function OrderTrackingPage() {
     |
     | If customer came directly to /track-order,
     | we can get store information after successful tracking.
+    | The store contact account is also returned with the order.
     |
     */
 
@@ -85,6 +101,47 @@ function OrderTrackingPage() {
         navigationState.storeName ||
         order?.store?.name ||
         "Store";
+
+    /*
+    |--------------------------------------------------------------------------
+    | Contact Admin Settings
+    |--------------------------------------------------------------------------
+    |
+    | These values are managed from Admin Settings.
+    | The customer frontend only receives the public contact fields.
+    |
+    */
+
+    useEffect(() => {
+        let mounted = true;
+
+        const loadContactAdmin = async () => {
+            try {
+                const response = await api.get("/settings/contact-admin");
+
+                if (!mounted) {
+                    return;
+                }
+
+                const settings = response.data?.settings || {};
+
+                setContactAdmin({
+                    platform: settings.contact_platform || "",
+                    name: settings.contact_name || "",
+                    username: settings.contact_username || "",
+                    link: settings.contact_link || "",
+                });
+            } catch (err) {
+                console.error("Failed to load contact admin settings:", err);
+            }
+        };
+
+        loadContactAdmin();
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
 
     /*
     |--------------------------------------------------------------------------
@@ -685,9 +742,9 @@ function OrderTrackingPage() {
 
                                             <div
                                                 className={`tracking-progress-step ${progressStep >=
-                                                        1
-                                                        ? "active"
-                                                        : ""
+                                                    1
+                                                    ? "active"
+                                                    : ""
                                                     }`}
                                             >
 
@@ -712,17 +769,17 @@ function OrderTrackingPage() {
 
                                             <div
                                                 className={`tracking-progress-connector ${progressStep >=
-                                                        2
-                                                        ? "active"
-                                                        : ""
+                                                    2
+                                                    ? "active"
+                                                    : ""
                                                     }`}
                                             ></div>
 
                                             <div
                                                 className={`tracking-progress-step ${progressStep >=
-                                                        2
-                                                        ? "active"
-                                                        : ""
+                                                    2
+                                                    ? "active"
+                                                    : ""
                                                     }`}
                                             >
 
@@ -747,17 +804,17 @@ function OrderTrackingPage() {
 
                                             <div
                                                 className={`tracking-progress-connector ${progressStep >=
-                                                        3
-                                                        ? "active"
-                                                        : ""
+                                                    3
+                                                    ? "active"
+                                                    : ""
                                                     }`}
                                             ></div>
 
                                             <div
                                                 className={`tracking-progress-step ${progressStep >=
-                                                        3
-                                                        ? "active"
-                                                        : ""
+                                                    3
+                                                    ? "active"
+                                                    : ""
                                                     }`}
                                             >
 
@@ -919,6 +976,41 @@ function OrderTrackingPage() {
 
                                     </div>
                                 )}
+
+                            {/* =========================================
+                                CONTACT STORE ADMIN
+                            ========================================= */}
+
+                            {order.store?.contact_link && (
+                                <a
+                                    href={order.store.contact_link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="tracking-contact-admin-button"
+                                >
+                                    <span className="tracking-contact-admin-icon">
+                                        <MessageCircle size={18} />
+                                    </span>
+
+                                    <span className="tracking-contact-admin-content">
+                                        <strong>
+                                            Contact Store Admin
+                                        </strong>
+
+                                        <small>
+                                            {order.store.contact_name
+                                                ? `${order.store.contact_name}${order.store.contact_username
+                                                    ? ` · ${order.store.contact_username}`
+                                                    : ""
+                                                }`
+                                                : order.store.contact_username ||
+                                                `Contact us on ${order.store.contact_platform ||
+                                                "Telegram"
+                                                }`}
+                                        </small>
+                                    </span>
+                                </a>
+                            )}
 
                             {/* =========================================
                                 BACK TO STORE

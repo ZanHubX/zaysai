@@ -1,0 +1,1002 @@
+/* =========================================================
+   ADMIN STORE DETAIL PAGE
+========================================================= */
+
+.admin-store-detail-page {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+
+    padding: 0 4px 40px;
+
+    box-sizing: border-box;
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.admin-store-back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 20px;
+    padding: 8px 12px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #374151;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.admin-store-back-button:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+}
+
+
+/* =========================================================
+   STORE HEADER
+========================================================= */
+
+.admin-store-detail-header {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 22px;
+
+    box-sizing: border-box;
+}
+
+.admin-store-detail-header-left {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+
+/* =========================================================
+   STORE LOGO
+========================================================= */
+
+.admin-store-detail-logo {
+    width: 64px !important;
+    height: 64px !important;
+
+    min-width: 64px !important;
+    max-width: 64px !important;
+
+    min-height: 64px !important;
+    max-height: 64px !important;
+
+    flex: 0 0 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.admin-store-detail-logo img {
+    width: 56px !important;
+    height: 56px !important;
+
+    min-width: 56px !important;
+    max-width: 56px !important;
+
+    min-height: 56px !important;
+    max-height: 56px !important;
+
+    object-fit: contain !important;
+
+    display: block;
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   STORE TITLE
+========================================================= */
+
+.admin-store-detail-title {
+    min-width: 0;
+}
+
+.admin-store-detail-label {
+    margin-bottom: 4px;
+
+    color: #9ca3af;
+
+    font-size: 10px;
+    font-weight: 750;
+
+    letter-spacing: 0.08em;
+}
+
+.admin-store-detail-title h1 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 26px;
+    font-weight: 750;
+
+    line-height: 1.25;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-store-detail-title p {
+    margin: 5px 0 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   STORE STATUS
+========================================================= */
+
+.admin-store-status {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 7px 11px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.admin-store-status.active {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.admin-store-status.inactive {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.admin-store-stats-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 14px;
+
+    margin-bottom: 18px;
+
+    box-sizing: border-box;
+}
+
+.admin-store-stat-card {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 17px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+}
+
+.admin-store-stat-icon {
+    width: 38px;
+    height: 38px;
+
+    min-width: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: #f3f4f6;
+
+    color: #374151;
+}
+
+.admin-store-stat-card span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #6b7280;
+
+    font-size: 11px;
+}
+
+.admin-store-stat-card strong {
+    display: block;
+
+    color: #111827;
+
+    font-size: 20px;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   MAIN INFORMATION GRID
+========================================================= */
+
+.admin-store-detail-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+
+    margin-bottom: 18px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.admin-store-card {
+    width: 100%;
+    min-width: 0;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+.admin-store-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 18px 20px;
+
+    border-bottom: 1px solid #f3f4f6;
+
+    box-sizing: border-box;
+}
+
+.admin-store-card-header h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.admin-store-card-header p {
+    margin: 5px 0 0;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+}
+
+.admin-store-card-header > svg {
+    flex-shrink: 0;
+
+    color: #9ca3af;
+}
+
+
+/* =========================================================
+   STORE INFORMATION
+========================================================= */
+
+.admin-store-info-list {
+    width: 100%;
+
+    padding: 4px 20px;
+
+    box-sizing: border-box;
+}
+
+.admin-store-info-item {
+    min-width: 0;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 13px 0;
+
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.admin-store-info-item:last-child {
+    border-bottom: none;
+}
+
+.admin-store-info-item > span {
+    flex-shrink: 0;
+
+    color: #9ca3af;
+
+    font-size: 12px;
+}
+
+.admin-store-info-item > strong {
+    min-width: 0;
+
+    color: #374151;
+
+    font-size: 12px;
+    font-weight: 650;
+
+    text-align: right;
+
+    overflow-wrap: anywhere;
+}
+
+.admin-store-break-text {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 5px;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.admin-store-description {
+    padding: 16px 20px 20px;
+
+    border-top: 1px solid #f3f4f6;
+}
+
+.admin-store-description > span {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.admin-store-description p {
+    margin: 0;
+
+    color: #4b5563;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   SELLER
+========================================================= */
+
+.admin-store-seller {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 18px 20px;
+
+    border-bottom: 1px solid #f3f4f6;
+
+    box-sizing: border-box;
+}
+
+.admin-store-seller-avatar {
+    width: 42px;
+    height: 42px;
+
+    min-width: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #f3f4f6;
+
+    color: #374151;
+}
+
+.admin-store-seller-main {
+    min-width: 0;
+}
+
+.admin-store-seller-main strong {
+    display: block;
+
+    color: #111827;
+
+    font-size: 13px;
+}
+
+.admin-store-seller-main span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   PRODUCTS SECTION
+========================================================= */
+
+.admin-store-products-card {
+    margin-bottom: 18px;
+}
+
+.admin-store-view-button {
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 7px 10px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #374151;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.admin-store-view-button:hover {
+    background: #f9fafb;
+}
+
+
+/* =========================================================
+   PRODUCTS TABLE
+========================================================= */
+
+.admin-store-products-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+.admin-store-products-table {
+    width: 100%;
+
+    min-width: 650px;
+
+    border-collapse: collapse;
+}
+
+.admin-store-products-table th {
+    padding: 11px 20px;
+
+    background: #fafafa;
+
+    color: #9ca3af;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+.admin-store-products-table td {
+    padding: 13px 20px;
+
+    border-top: 1px solid #f3f4f6;
+
+    color: #4b5563;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+}
+
+.admin-store-products-table tbody tr {
+    cursor: pointer;
+
+    transition: background 0.15s ease;
+}
+
+.admin-store-products-table tbody tr:hover {
+    background: #fafafa;
+}
+
+
+/* =========================================================
+   PRODUCT NAME
+========================================================= */
+
+.admin-store-product-name {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 0;
+}
+
+.admin-store-product-icon {
+    width: 34px !important;
+    height: 34px !important;
+
+    min-width: 34px !important;
+    max-width: 34px !important;
+
+    min-height: 34px !important;
+    max-height: 34px !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+
+    background: #f9fafb;
+
+    color: #6b7280;
+
+    box-sizing: border-box;
+}
+
+.admin-store-product-icon img {
+    width: 100% !important;
+    height: 100% !important;
+
+    max-width: 100% !important;
+    max-height: 100% !important;
+
+    object-fit: contain !important;
+
+    display: block;
+}
+
+.admin-store-product-name > div:last-child {
+    min-width: 0;
+}
+
+.admin-store-product-name strong {
+    display: block;
+
+    max-width: 250px;
+
+    overflow: hidden;
+
+    color: #111827;
+
+    font-size: 12px;
+    font-weight: 650;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-store-product-name span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #9ca3af;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   PRODUCT STATUS
+========================================================= */
+
+.admin-product-status {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 5px 8px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.admin-product-status.active {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.admin-product-status.inactive {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+
+/* =========================================================
+   PUBLIC STOREFRONT
+========================================================= */
+
+.admin-store-public-link {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 14px 16px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+}
+
+.admin-store-public-link > div {
+    min-width: 0;
+}
+
+.admin-store-public-link strong {
+    display: inline-block;
+
+    margin-right: 8px;
+
+    color: #111827;
+
+    font-size: 12px;
+}
+
+.admin-store-public-link span {
+    color: #6b7280;
+
+    font-size: 12px;
+
+    overflow-wrap: anywhere;
+}
+
+.admin-store-public-link a {
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 7px 10px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #374151;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.admin-store-public-link a:hover {
+    background: #f9fafb;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.admin-store-empty {
+    min-height: 130px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 25px;
+
+    color: #9ca3af;
+
+    font-size: 12px;
+
+    text-align: center;
+
+    box-sizing: border-box;
+}
+
+.admin-store-empty p {
+    margin: 0;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.admin-store-detail-state {
+    min-height: 400px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+.admin-store-detail-state p {
+    margin: 0;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.admin-store-detail-error {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+
+    padding: 14px 16px;
+
+    border: 1px solid #fecaca;
+    border-radius: 9px;
+
+    background: #fef2f2;
+
+    color: #991b1b;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .admin-store-stats-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 850px) {
+
+    .admin-store-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-store-detail-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .admin-store-detail-page {
+        padding-bottom: 25px;
+    }
+
+
+    .admin-store-detail-header-left {
+        align-items: flex-start;
+    }
+
+
+    .admin-store-detail-logo {
+        width: 52px !important;
+        height: 52px !important;
+
+        min-width: 52px !important;
+        max-width: 52px !important;
+
+        min-height: 52px !important;
+        max-height: 52px !important;
+
+        flex-basis: 52px;
+    }
+
+
+    .admin-store-detail-logo img {
+        width: 46px !important;
+        height: 46px !important;
+
+        min-width: 46px !important;
+        max-width: 46px !important;
+
+        min-height: 46px !important;
+        max-height: 46px !important;
+    }
+
+
+    .admin-store-detail-title h1 {
+        font-size: 20px;
+    }
+
+
+    .admin-store-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .admin-store-card-header {
+        padding: 15px;
+    }
+
+
+    .admin-store-info-list {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+
+    .admin-store-info-item {
+        gap: 12px;
+    }
+
+
+    .admin-store-products-table th,
+    .admin-store-products-table td {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+
+    .admin-store-public-link {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .admin-store-public-link a {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+}
+
+
+@media (max-width: 400px) {
+
+    .admin-store-detail-title h1 {
+        font-size: 18px;
+    }
+
+
+    .admin-store-info-item {
+        flex-direction: column;
+
+        gap: 5px;
+    }
+
+
+    .admin-store-info-item > strong {
+        text-align: left;
+    }
+
+}
