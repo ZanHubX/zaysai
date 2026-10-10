@@ -12,7 +12,7 @@ import {
 
 import api from "../services/api";
 
-import "./StoreFrontPage.css";
+import "./StorefrontPage.css";
 
 function StoreFrontPage() {
   const { slug } = useParams();
